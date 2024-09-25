@@ -16,6 +16,7 @@ import SimpleCropRecommendation from './Pages/SimpleCropRecommendation.js';
 import Supplier from './Pages/Supplier.js';
 import BlogEVs from './Pages/Blogs/BlogEVs.js';
 import StateAdmin from './Pages/StateAdmin.js';
+import WharWeDo from './Pages/WharWeDo.js';
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
         <Route path='/supplier' element={<Supplier/>}/>
         <Route path='/blogs/ev' element={<BlogEVs/>}/>
         <Route path='/state-admin' element={<StateAdmin/>}/>
+        <Route path='/whatwedo' element={<WharWeDo/>}/>
+
       </Routes>
       <Footer/>
     </Router>

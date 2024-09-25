@@ -12,7 +12,7 @@ function Header() {
         </div>
         <nav className='flex justify-center items-center'>
           <ul >
-              {[{name:'Home', route:'/'}, {name:'About', route:'/about'}, {name:'What We Do', route:'/what-we-do'},  {name:'Feedback', route:'/feedback'}].map((item) => (
+              {[{name:'Home', route:'/'}, {name:'About', route:'/about'}, {name:'What We Do', route:'/whatwedo'},  {name:'Feedback', route:'/feedback'}].map((item) => (
                 <Link to={item.route}>
               <li key={item.name}>{item.name}</li></Link>
             ))}
