@@ -5,9 +5,18 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
+import os
+
+# model 4
+MODEL_4_PATH_CROP_YIELD = os.path.join('model', 'model_4','crop_yield.csv' )
+MODEL_4_PATH_CLEANED_CROP_YIELD = os.path.join('model', 'model_4','cleaned_crop_data.csv' )
+MODEL_4_PATH_CROP_PREDICTION_MODEL = os.path.join('model', 'model_4','crop_prediction_model2.joblib' )
+MODEL_4_PATH_STATE = os.path.join('model', 'model_4','le_state2.joblib' )
+MODEL_4_PATH_LE_SEASON = os.path.join('model', 'model_4','le_season2.joblib' )
+MODEL_4_PATH_LE_CROP = os.path.join('model', 'model_4','le_crop2.joblib' )
 
 # Load the dataset
-df = pd.read_csv('crop_yield.csv')
+df = pd.read_csv(MODEL_4_PATH_CROP_YIELD)
 
 # Clean the data
 def clean_column(col):
@@ -52,16 +61,18 @@ joblib.dump(le_season, 'le_season2.joblib')
 joblib.dump(le_state, 'le_state2.joblib')
 joblib.dump(le_crop, 'le_crop2.joblib')
 
+
 # Function to predict crops
+
 def predict_crop(season, state):
     # Load the saved model and encoders
-    model = joblib.load('crop_prediction_model2.joblib')
-    le_season = joblib.load('le_season2.joblib')
-    le_state = joblib.load('le_state2.joblib')
-    le_crop = joblib.load('le_crop2.joblib')
+    model = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
+    le_season = joblib.load(MODEL_4_PATH_LE_SEASON)
+    le_state = joblib.load(MODEL_4_PATH_STATE)
+    le_crop = joblib.load(MODEL_4_PATH_LE_CROP)
     
     # Load the cleaned data
-    df = pd.read_csv('cleaned_crop_data.csv')
+    df = pd.read_csv(MODEL_4_PATH_CLEANED_CROP_YIELD)
     
     # Encode inputs
     season_encoded = le_season.transform([season.strip()])[0]

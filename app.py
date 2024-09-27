@@ -12,7 +12,7 @@ from sklearn.ensemble import RandomForestClassifier
 import sklearn
 import os
 
-from crop_model import predict_crop
+from model.model_4.crop_model import predict_crop
 
 
 
@@ -91,6 +91,10 @@ MODEL_2_PATH_SCALER = os.path.join('model', 'model_2','scaler.joblib' )
 MODEL_2_PATH_LE_SOIL = os.path.join('model', 'model_2','le_soil.joblib' )
 MODEL_2_PATH_LE_CROP = os.path.join('model', 'model_2','le_crop.joblib' )
 
+# model_2
+
+
+
 
 # Load the saved model and scaler
 try:
@@ -105,6 +109,13 @@ try:
     scaler2 = joblib.load(MODEL_2_PATH_SCALER)
     le_soil = joblib.load(MODEL_2_PATH_LE_SOIL)
     le_crop = joblib.load(MODEL_2_PATH_LE_CROP)
+
+    # model_4
+    # Load the saved model, scaler, and label encoders
+    model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
+    le_state4 = joblib.load(MODEL_4_PATH_STATE)
+    le_season4 = joblib.load(MODEL_4_PATH_LE_SEASON)
+    le_crop4 = joblib.load(MODEL_4_PATH_LE_CROP)
 except Exception as e:
     print(f"Error loading model: {str(e)}")
     traceback.print_exc()
@@ -184,11 +195,22 @@ def predict3():
     
     return jsonify({'prediction': prediction})
 
+
+
+
+
 @app.route('/simple-predict', methods=['POST'])
 def predict():
     data = request.json
     season = data['season']
     state = data['state']
+    # features1 = np.array([[
+    #     le_season4.transform([data['season']])[0],
+    #     le_state4.transform([data['state']])[0]
+    #     # data['season'],
+    #     # data['state']
+    # ]])
+    # prediction = predict_crop(season, state)
     prediction = predict_crop(season, state)
     return jsonify({'prediction': prediction})
 
