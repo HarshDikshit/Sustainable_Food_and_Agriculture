@@ -104,10 +104,6 @@ try:
     le_soil = joblib.load(MODEL_2_PATH_LE_SOIL)
     le_crop = joblib.load(MODEL_2_PATH_LE_CROP)
 
-   
-
-
-
 except Exception as e:
     print(f"Error loading model: {str(e)}")
     traceback.print_exc()
