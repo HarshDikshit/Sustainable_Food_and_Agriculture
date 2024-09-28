@@ -11,7 +11,6 @@ import BlogsGovtSchemes from './Pages/Blogs/BlogsGovtSchemes.js';
 import BlogsOrganic from './Pages/Blogs/BlogsOrganic.js';
 import BlogIrrigation from './Pages/Blogs/BlogIrrigation.js';
 import HomePage from './Pages/HomePage.js';
-import FoodDemandPrediction from './Pages/FoodDemandPrediction.js';
 import SimpleCropRecommendation from './Pages/SimpleCropRecommendation.js';
 import Supplier from './Pages/Supplier.js';
 import BlogEVs from './Pages/Blogs/BlogEVs.js';
