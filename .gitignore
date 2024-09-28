@@ -19,7 +19,7 @@ Pipfile.lock
 .ipynb_checkpoints/
 
 # Ignore machine learning model and related files
-*.joblib
+# *.joblib
 *.h5
 *.hdf5
 *.pkl
@@ -121,7 +121,7 @@ Pipfile.lock
 .ipynb_checkpoints/
 
 # Ignore machine learning model and related files
-*.joblib
+# *.joblib
 *.h5
 *.hdf5
 *.pkl
