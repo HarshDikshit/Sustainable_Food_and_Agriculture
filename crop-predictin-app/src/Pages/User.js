@@ -135,7 +135,7 @@ const ListWithWordLimit = ({ items, limit }) => {
         <FaInfo className='text-white rounded-full p-[3px] bg-yellow-600'/>
         <h1>This form is to create a request by farmer to allow the suppliers or states to know about the current availability of crops or foods.</h1>
         </span>
-        <button className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button>
+        <button onClick={()=> alert("Your Request was sent to Admin and you’ll be connected soon by other State Admin and Supplier.")} className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button>
 
         <section className='w-full flex flex-col mt-5'>
         <h1 className='text-black flex m-auto mt-5 text-2xl mb-5 font-bold'>Artificial Intelligence and Machine Learning Models</h1>

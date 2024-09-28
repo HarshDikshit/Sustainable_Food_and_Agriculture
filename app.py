@@ -215,19 +215,19 @@ def predict():
     prediction = predict_crop(season, state)
     return jsonify({'prediction': prediction})
 
-#-------model 4-------------------
+#-------model 3-------------------
 # Load pre-computed predictions and crop names
 
 # path names
-MODEL_5_PATH_NEXT_YEAR_PRED = os.path.join('model', 'model_5','next_year_predictions.npy' )
+MODEL_3_PATH_NEXT_YEAR_PRED = os.path.join('model', 'model_3','next_year_predictions.npy' )
 
-MODEL_5_PATH_SELECTED_CROP = os.path.join('model', 'model_5','selected_crops.npy' )
+MODEL_3_PATH_SELECTED_CROP = os.path.join('model', 'model_3','selected_crops.npy' )
 
-MODEL_5_PATH_LATEST_YEAR = os.path.join('model', 'model_5','latest_year.npy' )
+MODEL_3_PATH_LATEST_YEAR = os.path.join('model', 'model_3','latest_year.npy' )
 
-predictions = np.load(MODEL_5_PATH_NEXT_YEAR_PRED)
-selected_crops = np.load(MODEL_5_PATH_SELECTED_CROP)
-latest_year = np.load(MODEL_5_PATH_LATEST_YEAR)
+predictions = np.load(MODEL_3_PATH_NEXT_YEAR_PRED)
+selected_crops = np.load(MODEL_3_PATH_SELECTED_CROP)
+latest_year = np.load(MODEL_3_PATH_LATEST_YEAR)
 
 print("Loaded predictions:", predictions)
 print("Selected crops:", selected_crops)
