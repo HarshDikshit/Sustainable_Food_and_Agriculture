@@ -20,6 +20,7 @@ Pipfile.lock
 
 # Ignore machine learning model and related files
 # *.joblib
+crop_prediction_model2.joblib
 *.h5
 *.hdf5
 *.pkl
@@ -127,7 +128,7 @@ Pipfile.lock
 *.pkl
 *.sav
 *.model
-*.npy
+# *.npy
 *.npz
 
 # Flask-specific
