@@ -114,14 +114,27 @@ const SimpleCropRecommendation = () => {
       </form>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {prediction.length > 0 && (
-        <div className='flex flex-col justify-center items-center'>
-          <h2 className="text-xl font-bold mb-2">Top 5 Predicted Crops:</h2>
-          <ul className="list-disc pl-5">
-            {prediction.map((crop, index) => (
-              <li key={index}>{crop}</li>
-            ))}
-          </ul>
-        </div>
+
+<div className="mt-8">
+<h2 className="text-2xl font-semibold mb-4 text-gray-700">Top Predicted Crops:</h2>
+<ol className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {prediction.map((crop, index) => (
+     <div key={index} className="bg-gray-100 p-4 rounded-lg shadow">
+    {/* <h4 className="text-lg font-medium text-gray-800">{pred.crop}</h4> */}
+    <p className="text-2xl font-bold text-green-600">{crop}</p>
+    </div>
+  ))}
+   </ol>
+</div>
+
+        // <div className='flex flex-col justify-center items-center'>
+        //   <h2 className="text-xl font-bold mb-2">Top 5 Predicted Crops:</h2>
+        //   <ul className="list-disc pl-5">
+        //     {prediction.map((crop, index) => (
+        //       <li key={index}>{crop}</li>
+        //     ))}
+        //   </ul>
+        // </div>
       )}
       </div>
 

@@ -17,6 +17,7 @@ import Supplier from './Pages/Supplier.js';
 import BlogEVs from './Pages/Blogs/BlogEVs.js';
 import StateAdmin from './Pages/StateAdmin.js';
 import WharWeDo from './Pages/WharWeDo.js';
+import CropDemandPredictor from './Pages/CropDemandPredictor.js';
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
         <Route path='/blogs/govt-schemes' element={<BlogsGovtSchemes/>}/>
         <Route path='/blogs/organic-farming' element={<BlogsOrganic/>}/>
         <Route path='/blogs/irrigation' element={<BlogIrrigation/>}/>
-        <Route path='/food-demand' element={<FoodDemandPrediction/>}/>
+        <Route path='/food-demand' element={<CropDemandPredictor/>}/>
         <Route path='/simple-crop-recommendation' element={<SimpleCropRecommendation/>}/>
         <Route path='/supplier' element={<Supplier/>}/>
         <Route path='/blogs/ev' element={<BlogEVs/>}/>

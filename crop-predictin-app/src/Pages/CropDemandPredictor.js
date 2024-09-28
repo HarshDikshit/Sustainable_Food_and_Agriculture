@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+import Animation3 from '../LottieAnimations/Animation3';
+
+const CropDemandPredictor = () => {
+  const [predictions, setPredictions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchPredictions = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/predictions');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPredictions(data);
+    } catch (error) {
+      console.error('Error fetching predictions:', error);
+      setError('Failed to fetch predictions. Please try again.');
+    }
+    setLoading(false);
+  };
+
+  return (
+<>
+<div className='min-h-screen py-10'>
+       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Crop Demand Predictor</h2>
+
+<section className="page1 w-full">
+          <div className="lPart w-1/2">
+            <section className="about-model">
+              <h3 className="font-bold text-xl ">Forecasting Future Demand for Smart Farming
+              </h3>
+              <h4 className="font-semibold text-lg mb-4 mt-2 ">AI and ML powered platform predicting crop demand to optimize production, reduce waste, and increase profitability, this year</h4>
+              <p className="text-justify ">
+                The Crop Demand Predictor revolutionizes how farmers choose
+                crops. Data-driven decisions maximize yields and profits.Plan production according to forecasted demand.
+                Timely supply of essential crops. Stay ahead of market trends and competitors.
+                </p>
+            </section>
+
+            <section className="how-it-works">
+              <h3 className="font-bold text-xl">How it Works!</h3>
+              <ul>
+                <li>● Historical data on crop production, consumption, and market trends.</li>
+                <li>● Machine Learning: Train algorithms to identify patterns and correlations.</li>
+                <li>●  Model Deployment: Generate forecasts based on input data.</li>
+              </ul>
+            </section>
+          </div>
+          <div className="rPart w-1/2 flex items-start justify-start ">
+            <Animation3 className=" h-[60%] m-auto"/>
+          </div>
+        </section>
+
+    {/* form goes here */}
+    <div className="container max-w-2xl mx-auto justify-center items-center flex flex-col p-10 bg-white rounded-lg shadow-md border-[#3B82F6] border-2 ">
+      <h1 className="text-2xl font-bold mb-4 m-auto">Crop Demand Predictions</h1>
+      <p className="mb-4">Showing predictions for Rice, Wheat, and Corn</p>
+      <button 
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        onClick={fetchPredictions}
+        disabled={loading}
+      >
+        {loading ? 'Loading...' : 'Get Predictions'}
+      </button>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {predictions.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="py-2 px-4 border">Crop</th>
+                <th className="py-2 px-4 border">Year</th>
+                <th className="py-2 px-4 border">Predicted Demand</th>
+              </tr>
+            </thead>
+            <tbody>
+              {predictions.map((pred, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
+                  <td className="py-2 px-4 border">{pred.crop}</td>
+                  <td className="py-2 px-4 border">{pred.year}</td>
+                  <td className="py-2 px-4 border">{pred.predicted_demand.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+
+</div>
+    </>
+  );
+};
+
+export default CropDemandPredictor;

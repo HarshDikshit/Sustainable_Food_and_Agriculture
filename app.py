@@ -112,10 +112,11 @@ try:
 
     # model_4
     # Load the saved model, scaler, and label encoders
-    model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
-    le_state4 = joblib.load(MODEL_4_PATH_STATE)
-    le_season4 = joblib.load(MODEL_4_PATH_LE_SEASON)
-    le_crop4 = joblib.load(MODEL_4_PATH_LE_CROP)
+    # model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
+    # le_state4 = joblib.load(MODEL_4_PATH_STATE)
+    # le_season4 = joblib.load(MODEL_4_PATH_LE_SEASON)
+    # le_crop4 = joblib.load(MODEL_4_PATH_LE_CROP)
+
 except Exception as e:
     print(f"Error loading model: {str(e)}")
     traceback.print_exc()
@@ -213,6 +214,38 @@ def predict():
     # prediction = predict_crop(season, state)
     prediction = predict_crop(season, state)
     return jsonify({'prediction': prediction})
+
+#-------model 4-------------------
+# Load pre-computed predictions and crop names
+
+# path names
+MODEL_5_PATH_NEXT_YEAR_PRED = os.path.join('model', 'model_5','next_year_predictions.npy' )
+
+MODEL_5_PATH_SELECTED_CROP = os.path.join('model', 'model_5','selected_crops.npy' )
+
+MODEL_5_PATH_LATEST_YEAR = os.path.join('model', 'model_5','latest_year.npy' )
+
+predictions = np.load(MODEL_5_PATH_NEXT_YEAR_PRED)
+selected_crops = np.load(MODEL_5_PATH_SELECTED_CROP)
+latest_year = np.load(MODEL_5_PATH_LATEST_YEAR)
+
+print("Loaded predictions:", predictions)
+print("Selected crops:", selected_crops)
+print("Latest year:", latest_year)
+
+@app.route('/predictions', methods=['GET'])
+def get_predictions():
+    next_year = int(latest_year) + 1
+    prediction_data = []
+    for crop, demand in zip(selected_crops, predictions):
+        prediction_data.append({
+            "crop": str(crop),
+            "year": next_year,
+            "predicted_demand": float(demand)
+        })
+    
+    print("Serving prediction data:", prediction_data)
+    return jsonify(prediction_data)
 
 @app.route('/')
 def home():
