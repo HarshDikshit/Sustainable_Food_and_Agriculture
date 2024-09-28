@@ -18,7 +18,6 @@ class CropDemandModel(nn.Module):
         x = self.fc3(x)
         return x
 
-# Load data
 X = np.load('X.npy')
 y = np.load('y.npy')
 crop_encodings = np.load('crop_encodings.npy', allow_pickle=True).item()
@@ -33,20 +32,20 @@ y = y[mask]
 print("X shape after filtering:", X.shape)
 print("y shape after filtering:", y.shape)
 
-# Scale features
+#Scaling
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Convert to PyTorch tensors
+#convert to PyTorch tensors
 X_tensor = torch.FloatTensor(X_scaled)
 y_tensor = torch.FloatTensor(y).reshape(-1, 1)
 
-# Initialize model, loss function, and optimizer
+#Initialize loss function optimizer
 model = CropDemandModel(X.shape[1])
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# Training loop
+
 num_epochs = 500
 batch_size = 1
 
@@ -64,7 +63,7 @@ for epoch in range(num_epochs):
     if (epoch + 1) % 10 == 0:
         print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
 
-# Save model
+
 torch.save(model.state_dict(), 'crop_demand_model.pth')
 torch.save(scaler, 'scaler.pth')
 
@@ -73,8 +72,8 @@ def predict_next_year(model, scaler, X, crops, latest_year):
     next_year_data = []
     
     for crop in crops:
-        crop_data = X[X[:, 1] == crop_encodings[crop]][-1]  # Get the latest data for this crop
-        next_year_data.append([next_year] + list(crop_data[1:]))  # Replace year with next_year
+        crop_data = X[X[:, 1] == crop_encodings[crop]][-1]  
+        next_year_data.append([next_year] + list(crop_data[1:]))  
     
     next_year_data = np.array(next_year_data)
     next_year_scaled = scaler.transform(next_year_data)
@@ -94,7 +93,7 @@ print("Next year predictions:")
 for crop, prediction in zip(selected_crops, next_year_predictions):
     print(f"{crop}: {prediction:.2f}")
 
-# Save predictions
+
 np.save('next_year_predictions.npy', next_year_predictions)
 np.save('selected_crops.npy', selected_crops)
 np.save('latest_year.npy', latest_year)

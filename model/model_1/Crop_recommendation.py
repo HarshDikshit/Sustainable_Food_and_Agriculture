@@ -6,34 +6,34 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score
 import joblib
 
-# Load the dataset (you'll need to replace this with your actual dataset)
+
 data = pd.read_csv('Crop_recommendation.csv')
 
-# Separate features and target
+
 X = data.drop('crop', axis=1)
 y = data['crop']
 
-# Split the data
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Scale the features
+#scaling
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Create and train the model
+#train
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train_scaled, y_train)
 
-# Make predictions
+
 y_pred = model.predict(X_test_scaled)
 
-# Evaluate the model
+#Evaluate
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy}")
 print(classification_report(y_test, y_pred))
 
-# Get feature importances
+#important features
 feature_importance = pd.DataFrame({
     'feature': X.columns,
     'importance': model.feature_importances_
@@ -42,11 +42,11 @@ feature_importance = pd.DataFrame({
 print("Feature Importances:")
 print(feature_importance)
 
-# Save the model and scaler
+
 joblib.dump(model, 'crop_prediction_model.joblib')
 joblib.dump(scaler, 'scaler.joblib')
 
-# Function to make predictions
+
 def predict_crops(nitrogen, phosphorus, potassium, temperature, humidity, ph, rainfall, top_n=5):
     input_data = np.array([[nitrogen, phosphorus, potassium, temperature, humidity, ph, rainfall]])
     input_data_scaled = scaler.transform(input_data)
@@ -54,21 +54,21 @@ def predict_crops(nitrogen, phosphorus, potassium, temperature, humidity, ph, ra
     # Get probability estimates for all crops
     probabilities = model.predict_proba(input_data_scaled)[0]
     
-    # Get the crop names (classes)
+    #names
     crop_names = model.classes_
     
-    # Create a list of (crop, probability) tuples
+    
     crop_probabilities = list(zip(crop_names, probabilities))
     
-    # Sort the list by probability in descending order
+    #list in descending order
     crop_probabilities.sort(key=lambda x: x[1], reverse=True)
     
-    # Return the top N crops with their probabilities
+    
     return crop_probabilities[:top_n]
 
-# Example usage
+#ex
 if __name__ == "__main__":
-    # Example input data
+    
     nitrogen = 90
     phosphorus = 42
     potassium = 43
