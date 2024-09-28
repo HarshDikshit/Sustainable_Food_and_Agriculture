@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Animation3 from '../LottieAnimations/Animation3';
+import Animation2 from '../LottieAnimations/Animation2';
+import Animation4 from '../LottieAnimations/Animation4';
 
 const CropDemandPredictor = () => {
   const [predictions, setPredictions] = useState([]);
@@ -56,11 +58,11 @@ const CropDemandPredictor = () => {
         </section>
 
     {/* form goes here */}
-    <div className="container max-w-2xl mx-auto justify-center items-center flex flex-col p-10 bg-white rounded-lg shadow-md border-[#3B82F6] border-2 ">
-      <h1 className="text-2xl font-bold mb-4 m-auto">Crop Demand Predictions</h1>
+    <div className="container max-w-2xl mx-auto justify-center items-center flex flex-col p-20 bg-white rounded-lg shadow-md border-green-500 border-2 ">
+      <h1 className="text-2xl font-bold my-4 m-auto">Crop Demand Predictions</h1>
       <p className="mb-4">Showing predictions for Rice, Wheat, and Corn</p>
       <button 
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
         onClick={fetchPredictions}
         disabled={loading}
       >
@@ -68,7 +70,7 @@ const CropDemandPredictor = () => {
       </button>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {predictions.length > 0 && (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto py-10">
           <table className="min-w-full bg-white">
             <thead className="bg-gray-100">
               <tr>
@@ -90,6 +92,52 @@ const CropDemandPredictor = () => {
         </div>
       )}
     </div>
+
+    <section className="need-for-recommendation mt-8">
+          <div className="image-container">
+            <Animation4 className="h-[300px] w-[300px] scale-[1.3]"/>
+          </div>
+          <div className="content">
+            <h3 className="font-bold text-xl">Need for Crop Predictor Model</h3>
+            <p className="text-justify mb-8">
+              The Crop Predictor System revolutionizes how farmers choose
+              crops. It takes into account the season of a particular region i.e. states name and season name.
+            </p>
+            <h4 className="font-bold text-xl">How it Works!</h4>
+            <ul className="list-disc pl-5">
+              <li>Analyze average climatic conditions.</li>
+              <li>Get crop demand based on user input.</li>
+              <li>Make informed decisions on crop management.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section className="advantages-disadvantages flex  w-full">
+          <div className="w-1/2 justify-center items-center space-y-5">
+          <div className="disadvantages">
+            <ul className="pl-5">
+              <li># Gives not exact but approximate answer and simple to use.</li>
+              <li># May need ongoing support and updates to stay effective.</li>
+            </ul>
+          </div>
+          <div className="advantages">
+            <h4 className="font-bold text-xl">Advantages:</h4>
+            <ul className="list-disc pl-5">
+              <li>Helps farmers make simple decisions.</li>
+              <li>
+                Increases crop yield by selecting the most suitable crops based on recent demands.
+              </li>
+              <li>
+                No initial cost required.
+              </li>
+            </ul>
+          </div>
+         
+          </div>
+          <div className="image-container w-1/2">
+            <Animation2/>
+          </div>
+        </section>
 
 </div>
     </>

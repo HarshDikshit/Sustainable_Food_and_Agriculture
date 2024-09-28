@@ -27,7 +27,7 @@ for column in df.columns:
     df[column] = df[column].apply(clean_column)
 
 # Save the cleaned data
-df.to_csv('cleaned_crop_data.csv', index=False)
+df.to_csv(MODEL_4_PATH_CLEANED_CROP_YIELD, index=False)
 print("Cleaned data saved to 'cleaned_crop_data.csv'")
 
 # Prepare the features and target
@@ -56,10 +56,10 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy}")
 
 # Save the model and encoders
-joblib.dump(clf, 'crop_prediction_model2.joblib')
-joblib.dump(le_season, 'le_season2.joblib')
-joblib.dump(le_state, 'le_state2.joblib')
-joblib.dump(le_crop, 'le_crop2.joblib')
+joblib.dump(clf, MODEL_4_PATH_CROP_PREDICTION_MODEL)
+joblib.dump(le_season, MODEL_4_PATH_LE_SEASON)
+joblib.dump(le_state, MODEL_4_PATH_STATE)
+joblib.dump(le_crop, MODEL_4_PATH_LE_CROP)
 
 
 # Function to predict crops

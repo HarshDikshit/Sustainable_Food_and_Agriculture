@@ -89,7 +89,7 @@ function DropdownButton() {
               </Transition>
             </div>
 
-            <Link  onClick={() => setOpen(!open)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+            <Link to='/admin'  onClick={() => setOpen(!open)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
               Admin
             </Link>
 

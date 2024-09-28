@@ -65,78 +65,7 @@ const ListWithWordLimit = ({ items, limit }) => {
   return (
     <div className='w-full flex  flex-col p-5'>
       <h1 className='text-white flex m-auto mt-5 text-xl font-bold bg-black rounded-lg py-2 px-3'>Supplier</h1>
-      {/* <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Create a Request</h1>
-
-        <div className="flex justify-center p items-center gap-4 p-5 flex-wrap text-nowrap">
-
-<label htmlFor="partners">Partners:</label>
-<select value='Supplier' className='bg-gray-200' disabled name="partners" id="partners" >
-    <option value="Farmer">Farmer</option>
-    <option value="Supplier">Supplier</option>
-  </select>
-
-  <label htmlFor="supply">Supply:</label>
-    <select   name="supply" id="supply">
-    <option value="Surplus">Surplus</option>
-    <option value="Shortage">Shortage</option>
-  </select>
-
-  <label htmlFor="state">State:</label>
-  <select  name="state" id="state" value={state} onChange={(e)=> setState(e.target.value)}>
-  <option disabled value="" >Select</option>
-    <option value="Surplus">Andhra Pradesh</option>
-    <option value="Shortage">Arunachal Pradesh</option>
-    <option value="Assam">Assam</option>
-    <option value="Bihar">Bihar</option>
-    <option value="Chattisgarh">Chattisgarh</option>
-    <option value="Goa">Goa</option>
-    <option value="Gujarat">Gujarat</option>
-    <option value="Haryana">Haryana</option>
-    <option value="Himachal Pradesh">Himachal Pradesh</option>
-    <option value="Jharkhand">Jharkhand</option>
-    <option value="Karnataka">Karnataka</option>
-    <option value="Kerala">Kerala</option>
-    <option value="Madhya Pradesh">Madhya Pradesh</option>
-    <option value="Maharashtra">Maharashtra</option>
-    <option value="Manipur">Manipur</option>
-    <option value="Meghalaya">Meghalaya</option>
-    <option value="Mizoram">Mizoram</option>
-    <option value="Nagaland">Nagaland</option>
-    <option value="Odisha">Odisha</option>
-    <option value="Punjab">Punjab</option>
-    <option value="Rajasthan">Rajasthan</option>
-    <option value="Sikkim">Sikkim</option>
-    <option value="Tamil Nadu">Tamil Nadu</option>
-    <option value="Telangana">Telangana</option>
-    <option value="Tripura">Tripura</option>
-    <option value="Uttar Pradesh">Uttar Pradesh</option>
-    <option value="Uttarakhand">Uttarakhand</option>
-    <option value="West Bengal">West Bengal</option>
-  </select>
-
-  <label htmlFor="crop">Crop:</label>
-    <select  name="crop" id="crop" value={crop} onChange={(e)=> setCrop(e.target.value)}>
-    <option disabled value="" >Select</option>
-    <option value="Wheat">Wheat</option>
-    <option value="Rice">Rice</option>
-    <option value="Corn">Corn</option>
-    <option value="Millet">Millet</option>
-    <option value="Sorghum">Sorghum</option>
-    <option value="Barley">Barley</option>
-  </select>
-
-  <div>
-      <label className='mr-3' htmlFor="date">Date:</label>
-       <input id='date' value={todayDate} disabled className='px-3 py-2 bg-gray-200 border-green-400 border-2 rounded-lg' type="text"  />
-    </div>
-
-  <input className='px-3 py-2 border-green-400 border-2 rounded-lg' type="text"  placeholder='Contact Number'/>
-        </div>
-        <span className='flex m-auto justify-center items-center gap-5 bg-yellow-200 border-2 border-yellow-600 bg-opacity-30 py-1 px-4 rounded-md flex-wrap'>
-        <FaInfo className='text-white rounded-full p-[3px] bg-yellow-600'/>
-        <h1>This form is to create a request by Supplier to allow the suppliers or states to know about the current availability of crops or foods.</h1>
-        </span>
-        <button className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button> */}
+     
 
        <TableWithDataFetch/>
 

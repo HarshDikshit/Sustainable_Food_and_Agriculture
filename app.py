@@ -14,9 +14,6 @@ import os
 
 from model.model_4.crop_model import predict_crop
 
-
-
-
 # define model paths
 MODEL_3_PATH_CROP_DEMAND = os.path.join('model', 'model_3','Crop_demand.csv' )
 
@@ -70,11 +67,6 @@ joblib.dump(scaler, MODEL_3_PATH_SCALER)
 feature_importance = pd.DataFrame({'feature': X.columns, 'importance': model.feature_importances_})
 print(feature_importance.sort_values('importance', ascending=False))
 
-
-
-
-
-
 app = Flask(__name__)
 CORS(app)
 
@@ -91,9 +83,11 @@ MODEL_2_PATH_SCALER = os.path.join('model', 'model_2','scaler.joblib' )
 MODEL_2_PATH_LE_SOIL = os.path.join('model', 'model_2','le_soil.joblib' )
 MODEL_2_PATH_LE_CROP = os.path.join('model', 'model_2','le_crop.joblib' )
 
-# model_2
-
-
+# model_4
+MODEL_4_PATH_CROP_PREDICTION_MODEL = os.path.join('model', 'model_4','crop_prediction_model2.joblib' )
+MODEL_4_PATH_STATE = os.path.join('model', 'model_4','le_state2.joblib' )
+MODEL_4_PATH_LE_SEASON = os.path.join('model', 'model_4','le_season2.joblib' )
+MODEL_4_PATH_LE_CROP = os.path.join('model', 'model_4','le_crop2.joblib' )
 
 
 # Load the saved model and scaler
@@ -110,12 +104,9 @@ try:
     le_soil = joblib.load(MODEL_2_PATH_LE_SOIL)
     le_crop = joblib.load(MODEL_2_PATH_LE_CROP)
 
-    # model_4
-    # Load the saved model, scaler, and label encoders
-    # model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
-    # le_state4 = joblib.load(MODEL_4_PATH_STATE)
-    # le_season4 = joblib.load(MODEL_4_PATH_LE_SEASON)
-    # le_crop4 = joblib.load(MODEL_4_PATH_LE_CROP)
+   
+
+
 
 except Exception as e:
     print(f"Error loading model: {str(e)}")

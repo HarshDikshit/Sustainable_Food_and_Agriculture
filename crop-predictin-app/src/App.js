@@ -17,6 +17,7 @@ import BlogEVs from './Pages/Blogs/BlogEVs.js';
 import StateAdmin from './Pages/StateAdmin.js';
 import WharWeDo from './Pages/WharWeDo.js';
 import CropDemandPredictor from './Pages/CropDemandPredictor.js';
+import Admin from './Pages/Admin.js';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path='/blogs/ev' element={<BlogEVs/>}/>
         <Route path='/state-admin' element={<StateAdmin/>}/>
         <Route path='/whatwedo' element={<WharWeDo/>}/>
+        <Route path='/admin' element={<Admin/>}/>
 
       </Routes>
       <Footer/>
