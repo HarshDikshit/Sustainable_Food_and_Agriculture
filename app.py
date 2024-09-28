@@ -100,7 +100,7 @@ try:
 
     # model_2
     # Load the saved model, scaler, and label encoders
-    model2 = joblib.load(MODEL_2_PATH_CROP_PREDICTION)
+    model2 = joblib.load('crop_pediction_model2.joblib')
     scaler2 = joblib.load(MODEL_2_PATH_SCALER)
     le_soil = joblib.load(MODEL_2_PATH_LE_SOIL)
     le_crop = joblib.load(MODEL_2_PATH_LE_CROP)
