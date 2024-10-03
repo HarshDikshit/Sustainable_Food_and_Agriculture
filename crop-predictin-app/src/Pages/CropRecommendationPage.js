@@ -67,30 +67,6 @@ const CropRecommendationPage = () => {
 
   return (
     <div className="crop-recommendation-page w-full">
-      {/* <header>
-        <div className="logo">
-          <img src="/api/placeholder/24/24" alt="AgroTech AI Logo" />
-          <h1>AgroTech AI</h1>
-        </div>
-        <nav>
-          <ul>
-            {[
-              "Home",
-              "Crop",
-              "Disease",
-              "Fertilizer",
-              "Soil Quality",
-              "Price",
-              "Forecast",
-            ].map((item) => (
-              <li key={item}>
-                <a href="#">{item}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header> */}
-
       <main className="w-full">
         <h2 className="font-semibold text-xl  w-full">Specific Crop Recommendation Model</h2>
         <section className="page1 w-full">
@@ -197,7 +173,7 @@ const CropRecommendationPage = () => {
             {predictions.map((pred, index) => (
                <div key={pred} className="bg-gray-100 p-4 rounded-lg shadow">
               <h4 className="text-lg font-medium text-gray-800">{pred.crop}</h4>
-              <p className="text-2xl font-bold text-green-600">{(pred.probability * 100).toFixed(2)}%</p>
+              <p className="text-2xl font-bold text-blue-600">{(pred.probability * 100).toFixed(2)}%</p>
               </div>
             ))}
              </ol>

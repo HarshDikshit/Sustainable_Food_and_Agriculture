@@ -57,13 +57,13 @@ const SimpleCropRecommendation = () => {
         </section>
 
       {/* form and prediction */}
-      <div className='m-auto flex flex-col bg-gray-100 border-green-400 border-2 rounded-md p-5 w-1/2'>
+      <div className='m-auto flex flex-col bg-gray-100 border-blue-400 border-2 rounded-md p-5 w-1/2'>
       <h1 className="text-2xl font-bold my-8 m-auto ">Crop Prediction System</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <div className='flex justify-evenly gap-4'>
         <div className="mb-4 w-1/3 flex gap-4 justify-center items-center">
           <label htmlFor="season" className="block font-semibold mb-2">Season:</label>
-          <select  name="state" id="state" value={season} onChange={(e)=> setSeason(e.target.value)}>
+          <select className='border-blue-400 border-2'  name="state" id="state" value={season} onChange={(e)=> setSeason(e.target.value)}>
             <option disabled value="" >Select</option>
             <option value="Whole Year">Whole Year</option>
             <option value="Kharif">Kharif</option>
@@ -75,7 +75,7 @@ const SimpleCropRecommendation = () => {
         </div>
         <div className="mb-4 w-1/3 flex gap-4 justify-center items-center">
           <label htmlFor="state" className="block mb-2">State:</label>
-          <select  name="state" id="state" value={state} onChange={(e)=> setState(e.target.value)}>
+          <select className='border-blue-400 border-2'  name="state" id="state" value={state} onChange={(e)=> setState(e.target.value)}>
             <option disabled value="" >Select</option>
             <option value="Andhra Pradesh">Andhra Pradesh</option>
             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -108,7 +108,7 @@ const SimpleCropRecommendation = () => {
   </select>
         </div>
         </div>
-        <button type="submit" className="bg-green-500 text-white w-full px-4 py-2 rounded border-2 border-green-700 font-semibold" disabled={loading}>
+        <button type="submit" className="bg-blue-500 text-white w-full px-4 py-2 rounded border-2 border-blue-700 font-semibold" disabled={loading}>
           {loading ? 'Predicting...' : 'Predict'}
         </button>
       </form>
@@ -121,7 +121,7 @@ const SimpleCropRecommendation = () => {
   {prediction.map((crop, index) => (
      <div key={index} className="bg-gray-100 p-4 rounded-lg shadow">
     {/* <h4 className="text-lg font-medium text-gray-800">{pred.crop}</h4> */}
-    <p className="text-2xl font-bold text-green-600">{crop}</p>
+    <p className="text-2xl font-bold text-blue-600">{crop}</p>
     </div>
   ))}
    </ol>

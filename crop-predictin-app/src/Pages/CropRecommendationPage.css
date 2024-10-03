@@ -76,16 +76,16 @@ h2 {
 }
 
 .recommendation-form{
-    border: 2px solid #22c55e;
+    border: 2px solid #039eeb;
     border-radius: 10px;
     padding: 2vw;
     width: 40vw;
     text-align: center;
-    box-shadow: 0 10px 10px #22c55e27;
+    box-shadow: 0 10px 10px #2287c527;
 }
 
 .recommendation-form h3{
-    color: #22c55e;
+    color: #039eeb;
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5vw;
@@ -113,7 +113,7 @@ h2 {
     /* border: 1px solid #ccc; */
     border-radius: 4px;
     background-color: #fff;
-    border: 1px solid #22c55e
+    border: 1px solid #039eeb
 }
 
 .recommendation-form button {

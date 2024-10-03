@@ -5,7 +5,6 @@ import {FaInfo} from 'react-icons/fa6'
 import CropDropDown from '../components/CropDropDown';
 import Request from '../components/Dialog/Request';
 
-<<<<<<< HEAD
 import {useDispatch, useSelector}   from 'react-redux'
 import {getItems, addItem, updateItem, deleteItem} from '../redux/actions/itemsActions.js'
 import {ToastContainer, toast } from 'react-toastify';
@@ -29,23 +28,6 @@ function User() {
   const isToday = (date)=> {
     const Today =new Date();
     setData({...data, date:  Today.getDate() +'/'+ Today.getMonth() +'/'+ Today.getFullYear()})
-=======
-
-function User() {
-  
-  const [crop, setCrop] = useState("");
-  const [state, setState] = useState("");
-  const navigate=useNavigate()
-  const [todayDate, setTodayDate]= useState();
-  const [signD, setSignD]= useState(false)
-
-
-  const isToday = (date)=> {
-    const Today =new Date();
-  
-    setTodayDate(  Today.getDate() +'/'+ Today.getMonth() +'/'+ Today.getFullYear())
-    
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
   }
 
   useEffect(()=> isToday(),[])
@@ -89,7 +71,6 @@ const ListWithWordLimit = ({ items, limit }) => {
   );
 };
 
-<<<<<<< HEAD
 const handleClick = ()=> {
   if(data.partners =='' || data.contact=='' || data.crop=='' || data.date == '' || data.state=='' || data.supply =='' ) {
     toast.error('Kindly fill all the fields before submit!')
@@ -98,9 +79,6 @@ const handleClick = ()=> {
     dispatch(addItem(data));
     setSignD((prev)=> !prev)
 }
-=======
-
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 
   return (
     <div className='w-full flex  flex-col'>
@@ -122,17 +100,10 @@ const handleClick = ()=> {
   </select>
 
   <label htmlFor="state">State:</label>
-<<<<<<< HEAD
   <select  name="state" id="state" value={data.state} onChange={(e)=> setData({...data, state: e.target.value})}>
   <option disabled value="" >Select</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-=======
-  <select  name="state" id="state" value={state} onChange={(e)=> setState(e.target.value)}>
-  <option disabled value="" >Select</option>
-    <option value="Surplus">Andhra Pradesh</option>
-    <option value="Shortage">Arunachal Pradesh</option>
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
     <option value="Assam">Assam</option>
     <option value="Bihar">Bihar</option>
     <option value="Chattisgarh">Chattisgarh</option>
@@ -162,11 +133,7 @@ const handleClick = ()=> {
   </select>
 
   <label htmlFor="crop">Crop:</label>
-<<<<<<< HEAD
     <select  name="crop" id="crop" value={data.crop} onChange={(e)=> setData({...data, crop: e.target.value})}>
-=======
-    <select  name="crop" id="crop" value={crop} onChange={(e)=> setCrop(e.target.value)}>
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
     <option disabled value="" >Select</option>
     <option value="Wheat">Wheat</option>
     <option value="Rice">Rice</option>
@@ -178,27 +145,16 @@ const handleClick = ()=> {
 
   <div>
       <label className='mr-3' htmlFor="date">Date:</label>
-<<<<<<< HEAD
        <input id='date' value={data.date} disabled className='px-3 py-2 bg-gray-200 border-green-400 border-2 rounded-lg' type="text"  />
     </div>
 
   <input value={data.contact} onChange={(e)=> setData({...data, contact: e.target.value})} className='px-3 py-2 border-green-400 border-2 rounded-lg' type="text"  placeholder='Contact Number'/>
-=======
-       <input id='date' value={todayDate} disabled className='px-3 py-2 bg-gray-200 border-green-400 border-2 rounded-lg' type="text"  />
-    </div>
-
-  <input className='px-3 py-2 border-green-400 border-2 rounded-lg' type="text"  placeholder='Contact Number'/>
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
         </div>
         <span className='flex m-auto justify-center items-center gap-5 bg-yellow-200 border-2 border-yellow-600 bg-opacity-30 py-1 px-4 rounded-md flex-wrap'>
         <FaInfo className='text-white rounded-full p-[3px] bg-yellow-600'/>
         <h1>This form is to create a request by farmer to allow the suppliers or states to know about the current availability of crops or foods.</h1>
         </span>
-<<<<<<< HEAD
         <button onClick={handleClick} className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button>
-=======
-        <button onClick={()=> setSignD((prev)=> !prev)} className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button>
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 
         <section className='w-full flex flex-col mt-5'>
         <h1 className='text-black flex m-auto mt-5 text-2xl mb-5 font-bold'>Artificial Intelligence and Machine Learning Models</h1>
@@ -286,15 +242,10 @@ const handleClick = ()=> {
   ]} limit={20} />
 
               </p>
-<<<<<<< HEAD
-=======
-              {/* <Link className='w-full' to='/fertlizer'><button className='w-full mt-3 bg-green-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Fertilizer Recommendation</button></Link> */}
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
             </div>
           </div>
         </section>
 
-<<<<<<< HEAD
         <Request data={data} click={()=>{
             setSignD(!signD)
             }} className={`${signD? 'block':'hidden'}`}/>
@@ -311,12 +262,6 @@ const handleClick = ()=> {
             theme="colored" /> 
     </div>
 
-=======
-        <Request click={()=>{
-            setSignD(!signD)
-            }} className={`${signD? 'block':'hidden'}`}/>
-    </div>
->>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
   )
 }
 

@@ -58,11 +58,11 @@ const CropDemandPredictor = () => {
         </section>
 
     {/* form goes here */}
-    <div className="container max-w-2xl mx-auto justify-center items-center flex flex-col p-20 bg-white rounded-lg shadow-md border-green-500 border-2 ">
+    <div className="container max-w-2xl mx-auto justify-center items-center flex flex-col p-20 bg-white rounded-lg shadow-md border-blue-500 border-2 ">
       <h1 className="text-2xl font-bold my-4 m-auto">Crop Demand Predictions</h1>
       <p className="mb-4">Showing predictions for Rice, Wheat, and Corn</p>
       <button 
-        className="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         onClick={fetchPredictions}
         disabled={loading}
       >
