@@ -1,0 +1,1 @@
+It is a AI&ML based project for the BuzzOnEarth Intel Hackathon organised by IIT Kanpur
