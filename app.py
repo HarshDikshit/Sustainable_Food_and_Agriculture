@@ -11,6 +11,7 @@ import traceback
 from sklearn.ensemble import RandomForestClassifier
 import sklearn
 import os
+import pickle
 from model.model_4.crop_model import predict_crop
 from routes.item_routes import item_blueprint
 
@@ -80,11 +81,7 @@ print(f"scikit-learn version: {sklearn.__version__}")
 MODEL_1_PATH_CROP_PREDICTION = os.path.join('model', 'model_1','crop_prediction_model.joblib' )
 MODEL_1_PATH_SCALER = os.path.join('model', 'model_1','scaler.joblib' )
 
-# model_2
-MODEL_2_PATH_CROP_PREDICTION = os.path.join('model', 'model_2','fertilizer_model.joblib' )
-MODEL_2_PATH_SCALER = os.path.join('model', 'model_2','scaler.joblib' )
-MODEL_2_PATH_LE_SOIL = os.path.join('model', 'model_2','le_soil.joblib' )
-MODEL_2_PATH_LE_CROP = os.path.join('model', 'model_2','le_crop.joblib' )
+
 
 # model_4
 MODEL_4_PATH_CROP_PREDICTION_MODEL = os.path.join('model', 'model_4','crop_prediction_model2.joblib' )
@@ -100,12 +97,7 @@ try:
     model1 = joblib.load(MODEL_1_PATH_CROP_PREDICTION)
     scaler1 = joblib.load(MODEL_1_PATH_SCALER)
     print(f"Loaded model type: {type(model1)}")
-    # model_2
-    # Load the saved model, scaler, and label encoders
-    model2 = joblib.load('crop_pediction_model2.joblib')
-    scaler2 = joblib.load(MODEL_2_PATH_SCALER)
-    le_soil = joblib.load(MODEL_2_PATH_LE_SOIL)
-    le_crop = joblib.load(MODEL_2_PATH_LE_CROP)
+   
 
 except Exception as e:
     print(f"Error loading model: {str(e)}")
@@ -167,24 +159,49 @@ def predict1():
         traceback.print_exc()
         return jsonify({'error': str(e), 'status': 'error'}), 400
     
+
+#------model_2---------
+# model_2
+MODEL_2_RF_PIPELINE = os.path.join('model', 'model_2','rf_pipeline.pkl' )
+MODEL_2_SOIL_TYPE_ENCODER = os.path.join('model', 'model_2','soil_type_encoder.pkl' )
+MODEL_2_CROP_TYPE_ENCODER = os.path.join('model', 'model_2','crop_type_encoder.pkl' )
+MODEL_2_FERTNAME_ENCODER = os.path.join('model', 'model_2','fertname_encoder.pkl' )
+
+# Load the model and encoders
+rf_pipeline = pickle.load(open(MODEL_2_RF_PIPELINE, "rb"))
+soil_type_encoder = pickle.load(open(MODEL_2_SOIL_TYPE_ENCODER, "rb"))
+crop_type_encoder = pickle.load(open(MODEL_2_CROP_TYPE_ENCODER, "rb"))
+fertname_encoder = pickle.load(open(MODEL_2_FERTNAME_ENCODER, "rb"))
+
 @app.route('/api/predict', methods=['POST'])
 def predict3():
     data = request.json
-    features = np.array([
-        float(data['temperature']),
-        float(data['humidity']),
-        float(data['moisture']),
-        le_soil.transform([data['soil']])[0],
-        le_crop.transform([data['crop']])[0],
-        float(data['nitrogen']),
-        float(data['potassium']),
-        float(data['phosphorous'])
-    ])
     
-    scaled_features = scaler2.transform(features)
-    prediction = model2.predict(scaled_features)[0]
+    # Extract features
+    temperature = float(data['temperature'])
+    humidity = float(data['humidity'])
+    moisture = float(data['moisture'])
+    soil = data['soil']
+    crop = data['crop']
+    nitrogen = float(data['nitrogen'])
+    potassium = float(data['potassium'])
+    phosphorous = float(data['phosphorous'])
     
-    return jsonify({'prediction': prediction})
+    # Encode categorical variables
+    soil_encoded = soil_type_encoder.transform([soil])[0]
+    crop_encoded = crop_type_encoder.transform([crop])[0]
+    
+    # Create input array
+    input_data = np.array([[temperature, humidity, moisture, soil_encoded, crop_encoded, 
+                            nitrogen, potassium, phosphorous]])
+    
+    # Make prediction
+    prediction = rf_pipeline.predict(input_data)
+    
+    # Decode prediction
+    fertilizer = fertname_encoder.inverse_transform(prediction)[0]
+    
+    return jsonify({'prediction': fertilizer})
 
 
 model4 = joblib.load('crop_prediction_model2.joblib')
