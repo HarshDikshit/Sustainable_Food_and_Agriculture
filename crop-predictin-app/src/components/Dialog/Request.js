@@ -1,17 +1,24 @@
 import React from 'react'
+<<<<<<< HEAD
 import {useDispatch, useSelector}   from 'react-redux'
 import {getItems, addItem, updateItem, deleteItem} from '../../redux/actions/itemsActions.js'
 import {ToastContainer, toast } from 'react-toastify';
+=======
+>>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 
 function Request({
     click,
     className,
+<<<<<<< HEAD
     data={}
 }) {
   const dispatch = useDispatch();
 
   
 
+=======
+}) {
+>>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
   return (
     <div>
        

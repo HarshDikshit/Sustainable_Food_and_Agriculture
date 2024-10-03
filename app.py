@@ -11,8 +11,13 @@ import traceback
 from sklearn.ensemble import RandomForestClassifier
 import sklearn
 import os
+<<<<<<< HEAD
 from model.model_4.crop_model import predict_crop
 from routes.item_routes import item_blueprint
+=======
+
+from model.model_4.crop_model import predict_crop
+>>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 
 # define model paths
 MODEL_3_PATH_CROP_DEMAND = os.path.join('model', 'model_3','Crop_demand.csv' )
@@ -70,9 +75,12 @@ print(feature_importance.sort_values('importance', ascending=False))
 app = Flask(__name__)
 CORS(app)
 
+<<<<<<< HEAD
 #Registering the requests route blueprint 
 app.register_blueprint(item_blueprint)
 
+=======
+>>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 print(f"scikit-learn version: {sklearn.__version__}")
 
 # define model paths
@@ -188,7 +196,11 @@ def predict3():
     return jsonify({'prediction': prediction})
 
 
+<<<<<<< HEAD
 model4 = joblib.load('crop_prediction_model2.joblib')
+=======
+model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
+>>>>>>> c7955d66a4ba05be13a2cb2c080b269091ac5d63
 le_season2 = joblib.load(MODEL_4_PATH_LE_SEASON)
 le_state2 = joblib.load(MODEL_4_PATH_STATE)
 le_crop2 = joblib.load(MODEL_4_PATH_LE_CROP)
