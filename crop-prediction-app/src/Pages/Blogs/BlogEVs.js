@@ -22,8 +22,8 @@ function BlogEVs() {
               </ul>
             </div>
 
-            <div className='flex rounded-lg w-1/2 justify-center items-center'>
-            <img className='rounded-lg p-8 object-cover' src="/ev.jpg" alt="" />
+            <div className='flex rounded-lg w-1/2 justify-center items-center p-8'>
+            <img className='rounded-lg object-cover' src="/ev.jpg" alt="" />
             </div>
         </section>
        

@@ -17,8 +17,8 @@ function BlogsOrganic() {
           </ul>
         </div>
 
-        <div className='flex justify-center items-center'>
-        <img className='rounded-lg p-8' src="https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638892233/EducationHub/photos/crops-growing-in-thailand.jpg" alt="" />
+        <div className='flex justify-center items-center rounded-lg p-8'>
+        <img className=' object-cover bg-cover rounded-lg w-fit h-fit' src="https://www.aromaticandallied.com/uploads/blog/202404/img_660be77949ffa7-73444220-84857755.jpg" alt="" />
         </div>
     </section>
    

@@ -98,21 +98,21 @@ const handleClick = ()=> {
         <div className="flex justify-center p items-center gap-4 p-5 flex-wrap text-nowrap">
 
 <label htmlFor="partners">Partners:</label>
-<select value={data.partners} onChange={(e)=> setData({...data, partners: e.target.value})}  className='bg-gray-200' disabled name="partners" id="partners" >
+<select className='border-green-400 border-2 bg-gray-200' value={data.partners} onChange={(e)=> setData({...data, partners: e.target.value})}   disabled name="partners" id="partners" >
   <option disabled value="">select</option>
     <option value="Farmer">Farmer</option>
     <option value="Supplier">Supplier</option>
   </select>
 
   <label htmlFor="supply">Supply:</label>
-    <select value={data.supply}  onChange={(e)=> setData({...data, supply: e.target.value})} name="supply" id="supply">
+    <select className='border-green-400 border-2' value={data.supply}  onChange={(e)=> setData({...data, supply: e.target.value})} name="supply" id="supply">
     <option disabled value="" >Select</option>
     <option value="Surplus">Surplus</option>
     <option value="Shortage">Shortage</option>
   </select>
 
   <label htmlFor="state">State:</label>
-  <select disabled className='bg-gray-200'  value={data.state} onChange={(e)=> setData({...data, state: e.target.value})} name="state" id="state" >
+  <select disabled className='border-green-400 border-2 bg-gray-200'  value={data.state} onChange={(e)=> setData({...data, state: e.target.value})} name="state" id="state" >
   <option disabled value="" >Select</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -145,7 +145,7 @@ const handleClick = ()=> {
   </select>
 
   <label htmlFor="crop">Crop:</label>
-    <select  name="crop" id="crop" value={data.crop} onChange={(e)=> setData({...data, crop: e.target.value})}>
+    <select className='border-green-400 border-2'  name="crop" id="crop" value={data.crop} onChange={(e)=> setData({...data, crop: e.target.value})}>
     <option disabled value="" >Select</option>
     <option value="Wheat">Wheat</option>
     <option value="Rice">Rice</option>

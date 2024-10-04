@@ -17,8 +17,8 @@ function BlogsGovtSchemes() {
               </ul>
             </div>
 
-            <div className='flex justify-center items-center'>
-            <img className='rounded-lg p-8' src="https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638892233/EducationHub/photos/crops-growing-in-thailand.jpg" alt="" />
+            <div className='flex justify-center items-center w-1/2 p-8'>
+            <img className='rounded-lg' src="https://timesofagriculture.in/wp-content/uploads/2023/08/feature-image-2-1-1-1-1536x864.jpg" alt="" />
             </div>
         </section>
        

@@ -51,7 +51,7 @@ function LoginRegister({
   return (
     <div>
        
-      <div className={`outer fixed  top-0 left-0 z-[10] h-full w-full flex justify-center items-center backdrop-blur-sm bg-black bg-opacity-60 ${className}`}>
+      <div className={` fixed  top-0 left-0 z-[10] h-full w-full flex justify-center items-center backdrop-blur-sm bg-black bg-opacity-60 ${className}`}>
       <div onClick={click} className=' absolute left-0 top-0 w-full h-full z-[11]'></div>
         <div className="form   z-[12] rounded-xl p-4 flex  bg-white md:w-[30%]">
             {/* conten starts here */}
@@ -64,7 +64,7 @@ function LoginRegister({
           <input
             type="text"
             value={username}
-            className='border-blue-400 border-2 rounded-md p-1'
+            className='border-green-400 border-2 rounded-md p-1'
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -75,7 +75,7 @@ function LoginRegister({
           <input
             type="password"
             value={password}
-            className='border-blue-400 border-2 rounded-md p-1'
+            className='border-green-400 border-2 rounded-md p-1'
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -84,16 +84,13 @@ function LoginRegister({
         {error && <p className='flex w-full m-auto' style={{ color: 'red' }}>{error}</p>}
         {message && <p style={{ color: 'green' }}>{message}</p>}
 
-        <button className='m-auto flex  justify-center items-center w-full py-1 rounded-md border-blue-700 bg-blue-500 text-white my-3' type="submit">{isRegister ? 'Register' : 'Login'}</button>
+        <button className='m-auto flex  justify-center items-center w-full py-1 rounded-md border-green-700 bg-green-500 border-2 text-white my-3' type="submit">{isRegister ? 'Register' : 'Login'}</button>
       </form>
       {/* <button className='bg-transparent text-black text-center m-auto' onClick={() => setIsRegister(!isRegister)}>
         {isRegister ? 'Already have an account? Login' : 'Don’t have an account? Register'}
       </button> */}
     </div>
-
-        </div>
-      </div>
-      <ToastContainer 
+    <ToastContainer 
             position='top-right'  
             autoClose={1000} 
             hideProgressBar={false}
@@ -103,6 +100,9 @@ function LoginRegister({
             draggable                      
             pauseOnHover                   
             theme="colored" /> 
+        </div>
+      </div>
+     
     </div>
   )
 }

@@ -18,8 +18,8 @@ function BlogIrrigation() {
               </ul>
             </div>
 
-            <div className='flex justify-center items-center'>
-            <img className='rounded-lg  p-8' src="https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638892233/EducationHub/photos/crops-growing-in-thailand.jpg" alt="" />
+            <div className='flex justify-center items-center w-1/2 p-8'>
+            <img className='rounded-lg' src="https://www.hydropoint.com/wp-content/uploads/What-is-smart-irrigation-1.jpeg" alt="" />
             </div>
         </section>
        
