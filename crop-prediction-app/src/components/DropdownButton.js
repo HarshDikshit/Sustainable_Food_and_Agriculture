@@ -4,19 +4,30 @@ import {FaAngleDown} from 'react-icons/fa6'
 import {Menu, MenuHandler, MenuList, MenuItem, Button} from '@material-tailwind/react'
 import {  ChevronUpIcon } from "@heroicons/react/24/solid";
 import { Transition } from '@headlessui/react';
+import { useParams, useNavigate } from 'react-router-dom';
+import LoginRegister from './Dialog/LoginRegister';
+import { useDispatch, useSelector } from 'react-redux'
+import {LOGIN} from '../redux/reducers/authReducer';
+
 
 
 function DropdownButton() {
-    // const [isOpen, setOpen]= useState(false);
-    const [isOpen2, setOpen2]= useState(false);
-    const [openMenu, setOpenMenu] = React.useState(false);
+    const navigate = useNavigate();
+
+    const authStatus = useSelector((state)=> state.auth.authStatus)
+
+    const [signD, setSignD]= useState(false)
+    const [state, setState] = useState('');
 
     const [open, setOpen] = useState(false);
     const [nestedOpen, setNestedOpen] = useState(false);
+    const [nestedStateOpen, setNestedStateOpen] = useState(false);
+
   
     const handleClick= ()=>{
        setOpen(!open)
        setNestedOpen(!nestedOpen)
+       setNestedStateOpen(!nestedStateOpen)
     }
 
   return (
@@ -81,41 +92,84 @@ function DropdownButton() {
                     <Link to="/supplier" onClick={handleClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
                       Supplier
                     </Link>
-                    <Link to='/state-admin'  onClick={handleClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+                    <div   className="relative w-full inline-block text-left z-10">
+                    <button
+                onClick={() => setNestedStateOpen(!nestedStateOpen)}
+                className="w-full text-left  px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex justify-between rounded-lg"
+              >
                       State Admin
-                    </Link>
+                      </button>
+                      <Transition
+                show={nestedStateOpen}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 transform scale-95"
+                enterTo="opacity-100 transform scale-100"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 transform scale-100"
+                leaveTo="opacity-0 transform scale-95"
+              >
+                <div
+               
+                className="w-full text-left  px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex justify-between rounded-lg"
+              > <select className='border-blue-400 border-2'  name="state" id="state" value={state} onChange={(e)=> {setState(e.target.value)
+                navigate(`/state-admin/${e.target.value}`)
+                handleClick()
+              }}>
+              <option disabled value="" >Select</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+              <option value="Assam">Assam</option>
+              <option value="Bihar">Bihar</option>
+              <option value="Chattisgarh">Chattisgarh</option>
+              <option value="Goa">Goa</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Haryana">Haryana</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Jharkhand">Jharkhand</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Manipur">Manipur</option>
+              <option value="Meghalaya">Meghalaya</option>
+              <option value="Mizoram">Mizoram</option>
+              <option value="Nagaland">Nagaland</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Punjab">Punjab</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Tripura">Tripura</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="West Bengal">West Bengal</option>
+    </select></div></Transition>
+                    </div>
                   </div>
                 </div>
               </Transition>
             </div>
 
-            <Link to='/admin'  onClick={() => setOpen(!open)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+            <div onClick={() => {
+              setOpen(!open)
+              if(authStatus){
+                navigate('/admin')
+              }else{
+                setSignD((prev)=> !prev)
+              }
+              
+              }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
               Admin
-            </Link>
+            </div>
 
           </div>
         </div>
       </Transition>
-      {/* <button onClick={()=>setOpen((prev)=> !prev) } 
-      className='bg-[#22C55E]  py-2 px-8 rounded-full justify-center items-center flex border-4 border-transparent active:border-white duration-300 hover:scale-[1.05] hover:bg-green-600 '>Login</button>
-
-      {isOpen && <div className='absolute top-14 z-[2] flex justify-center p-2 items-center bg-black bg-opacity-60 w-full rounded-lg '>
-        <ul className='flex-col cursor-pointer flex justify-center w-full items-center'>
-            <Link className='w-full' to='/user-create-request'><li className='hover:bg-gray-300 bg-opacity-60 w-full rounded-lg m-auto text-center'>Farmer</li></Link>
-
-            <Link className='w-full' to='/supplier'><li className='hover:bg-gray-300 bg-opacity-60 w-full rounded-lg m-auto text-center'>Moderator</li></Link>
-          
-            <li className='hover:bg-gray-300 bg-opacity-60 w-full rounded-lg m-auto text-center'>Admin</li>
-        </ul>
-        </div>}
-
-       <div className={`transition-all duration-300 ease-in-out transform
-        ${isOpen2? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden absolute left-0 `}>
-          <ul className='flex flex-col p-2' aria-labelledby=''>
-            <li>Supplier</li>
-            <li>State Admin</li>
-          </ul>
-          </div> */}
+      
+      <LoginRegister click={()=>{
+            setSignD(!signD)
+            }} className={`${signD? 'block':'hidden'}`} />
     </div>
   )
 }

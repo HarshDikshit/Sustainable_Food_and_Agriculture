@@ -18,6 +18,8 @@ import StateAdmin from './Pages/StateAdmin.js';
 import WharWeDo from './Pages/WharWeDo.js';
 import CropDemandPredictor from './Pages/CropDemandPredictor.js';
 import Admin from './Pages/Admin.js';
+import ChatbotPopup from './Pages/ChatBot.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
 
 function App() {
   return (
@@ -38,11 +40,12 @@ function App() {
         <Route path='/simple-crop-recommendation' element={<SimpleCropRecommendation/>}/>
         <Route path='/supplier' element={<Supplier/>}/>
         <Route path='/blogs/ev' element={<BlogEVs/>}/>
-        <Route path='/state-admin' element={<StateAdmin/>}/>
+        <Route path='/state-admin/:stateName' element={<StateAdmin/>}/>
         <Route path='/whatwedo' element={<WharWeDo/>}/>
-        <Route path='/admin' element={<Admin/>}/>
-
+        
+        <Route path='/admin' element={<ProtectedRoute><Admin/></ProtectedRoute>}/>
       </Routes>
+      <ChatbotPopup/>
       <Footer/>
     </Router>
 

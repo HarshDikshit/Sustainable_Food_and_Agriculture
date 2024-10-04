@@ -1,9 +1,10 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from flask import jsonify
+from  config import Config
 
 
-client = MongoClient('mongodb+srv://sfa:sfa123@cluster0.w3krj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+client = MongoClient(Config.MONGO_URI)
 db = client.get_database('sfa')
 collection = db['requests']
 

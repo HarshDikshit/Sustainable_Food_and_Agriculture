@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DatePickerComponent from '../components/DatePickerComponent';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {FaInfo} from 'react-icons/fa6'
 import CropDropDown from '../components/CropDropDown';
 import TableWithDataFetch from '../components/TableWithDataFetch';
@@ -12,24 +12,26 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function StateAdmin() {
-  
+  const {stateName} = useParams()
   const [crop, setCrop] = useState("");
   const [state, setState] = useState("");
   const navigate=useNavigate()
   const [todayDate, setTodayDate]= useState();
  
-
+ 
   useEffect(()=> isToday(),[])
 
   const dispatch = useDispatch();
   const [data, setData] = useState({
     crop: "", 
-    state: "",
+    state: stateName,
     date: "",
     contact:"",
     supply: "",
     partners: "Supplier"
   });
+
+  useEffect(()=> setData((prev)=> ({...prev, state:stateName })),[stateName])
 
   const isToday = (date)=> {
     const Today =new Date();
@@ -110,7 +112,7 @@ const handleClick = ()=> {
   </select>
 
   <label htmlFor="state">State:</label>
-  <select  value={data.state} onChange={(e)=> setData({...data, state: e.target.value})} name="state" id="state" >
+  <select disabled className='bg-gray-200'  value={data.state} onChange={(e)=> setData({...data, state: e.target.value})} name="state" id="state" >
   <option disabled value="" >Select</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
