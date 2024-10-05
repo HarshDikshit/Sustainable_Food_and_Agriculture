@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import "./HomePage.css"
 import Animation1 from '../LottieAnimations/Animation1.js';
+import ChatbotPopup from './ChatBot.js';
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,17 +43,17 @@ const HomePage = () => {
   ];
 
   return (
-    <div  className="home-page">
+    <div  className="home-page text-wrap flex-wrap">
           <section
             style={{backgroundImage: "url('https://www.unfi.com/content/dam/unfi-corporate/homepage/en/hp-services-bring-out-true-value.jpg')"}}
           className="h-screen w-full bg-cover bg-center ">
-            <div className="flex w-full flex-col justify-center  text-white  h-full bg-black backdrop-blur-sm bg-opacity-50 p-10">
-              <div className='w-1/2'>
-                <h1 className='font-bold  text-3xl'>Welcome To SFA</h1>
-                  <p className="subtitle text-lg">A simple web-based platform where users can easily</p>
+            <div className="flex w-full flex-col justify-center  text-white  h-full bg-black backdrop-blur-sm bg-opacity-50 p-4 md:p-10">
+              <div className='w-full text-wrap md:w-1/2'>
+                <h1 className='font-bold text-2xl  md:text-3xl mb-2'>Welcome To SFA</h1>
+                  <p className="subtitle text-sm md:text-lg">A simple web-based platform where users can easily</p>
                     <div className="feature">
                       <div className="checkmark">✓</div>
-                  <p className='w-1/2 text-ellipsis'>
+                  <p className=' w-full md:w-1/2 text-ellipsis'>
                   <strong>Explore</strong> - Discover a variety of AI and ML models tailored to enhance farming
                   practices. From crop prediction to soil analysis, explore solutions designed
                   to optimize agricultural productivity and a better supply systems.
@@ -92,7 +93,7 @@ const HomePage = () => {
               </div>
              
             </div>
-           <Animation1 className='w-1/2'/>
+           <Animation1 className='md:w-1/2 w-full'/>
           </div>
         
           
@@ -119,7 +120,6 @@ const HomePage = () => {
                 </div>
             </div>
         </section>
-
         <div className="faq-container">
           <h1 className="faq-title text-black font-semibold text-xl">😮 Frequently Asked Questions 😮</h1>
           {faqData.map((item, index) => (
@@ -127,6 +127,8 @@ const HomePage = () => {
           ))}
         </div>
       </main>
+    
+
     </div>
   );
 };

@@ -11,7 +11,7 @@ import {LOGIN} from '../redux/reducers/authReducer';
 
 
 
-function DropdownButton() {
+function DropdownButton({classname}) {
     const navigate = useNavigate();
 
     const authStatus = useSelector((state)=> state.auth.authStatus)
@@ -32,7 +32,7 @@ function DropdownButton() {
 
   return (
     // className='relative flex flex-col items-center justify-center rounded-lg'
-    <div className="relative inline-block text-left z-10" >
+    <div className={`relative text-left z-10  ${classname}`} >
 
         {/* Main Button */}
       <button
@@ -53,7 +53,7 @@ function DropdownButton() {
         leaveFrom="opacity-100 transform scale-100"
         leaveTo="opacity-0 transform scale-95"
       >
-        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="md:origin-top-right origin-top-left absolute md:right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <Link to="/user-create-request" onClick={()=> setOpen(!open)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
               Farmer

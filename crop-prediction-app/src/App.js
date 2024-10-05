@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import CropRecommendationPage from './Pages/CropRecommendationPage'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import AboutUs from './Pages/AboutUs'
@@ -18,8 +18,13 @@ import StateAdmin from './Pages/StateAdmin.js';
 import WharWeDo from './Pages/WharWeDo.js';
 import CropDemandPredictor from './Pages/CropDemandPredictor.js';
 import Admin from './Pages/Admin.js';
-import ChatbotPopup from './Pages/ChatBot.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
+import WeatherApp from './Pages/WeatherApp.js';
+import ChatbotPopup from './Pages/ChatBot.js';
+import Feedback from './Pages/Feedback.js';
+import QuickLinks from './Pages/QuickLinks.js';
+
+
 
 function App() {
   return (
@@ -28,7 +33,7 @@ function App() {
       <Router>
     <Header/>
       <Routes>
-      <Route path='/' element={<HomePage/>}/>
+      <Route path='/' element={<><HomePage/><ChatbotPopup /></>}/>
         <Route path='/crop-recommendation' element={<CropRecommendationPage/>}/>
         <Route path='/about' element={<AboutUs/>}/>
         <Route path='/fertlizer' element={<FertilizerRecommendation/>}/>
@@ -42,10 +47,10 @@ function App() {
         <Route path='/blogs/ev' element={<BlogEVs/>}/>
         <Route path='/state-admin/:stateName' element={<StateAdmin/>}/>
         <Route path='/whatwedo' element={<WharWeDo/>}/>
-        
         <Route path='/admin' element={<ProtectedRoute><Admin/></ProtectedRoute>}/>
+        <Route path='/feedback' element={<Feedback/>}/>
+        <Route path='/quicklinks' element={<QuickLinks/>}/>
       </Routes>
-      <ChatbotPopup/>
       <Footer/>
     </Router>
 

@@ -88,14 +88,14 @@ const handleClick = ()=> {
 
 
   return (
-    <div className='w-full flex  flex-col p-5'>
+    <div className='w-full flex  flex-col'>
       <h1 className='text-white flex m-auto mt-5 text-xl font-bold bg-black rounded-lg py-2 px-3'>State Admin</h1>
 
-      <div className='w-full flex flex-col p-5'>
+      <div className='w-full flex flex-col'>
       
       <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Create a Request</h1>
 
-        <div className="flex justify-center p items-center gap-4 p-5 flex-wrap text-nowrap">
+        <div className="flex justify-center items-center gap-4 p-5 flex-wrap text-nowrap">
 
 <label htmlFor="partners">Partners:</label>
 <select className='border-green-400 border-2 bg-gray-200' value={data.partners} onChange={(e)=> setData({...data, partners: e.target.value})}   disabled name="partners" id="partners" >

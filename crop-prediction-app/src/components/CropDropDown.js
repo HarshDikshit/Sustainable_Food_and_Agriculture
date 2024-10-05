@@ -8,7 +8,7 @@ function CropDropDown() {
     return (
     <div className='relative flex flex-col items-center justify-center rounded-lg'>
       <button onClick={()=>setOpen((prev)=> !prev) } 
-      className='bg-green-500 py-2 mt-4 px-8 rounded-md justify-center items-center flex border-4 border-transparent active:border-white duration-300 text-lg text-white font-semibold w-full text-center  hover:bg-green-600 '>Crop Recommendation</button>
+      className='bg-blue-500 py-1 mt-4 px-8 rounded-md justify-center items-center flex border-4 border-transparent active:border-white duration-300 text-lg text-white font-semibold w-full text-center'>Crop Recommendation</button>
 
       {isOpen && <div className='absolute top-16 mt-2 z-[2] flex justify-center p-2 items-center bg-black bg-opacity-90 w-full rounded-lg '>
         <ul className='flex-col cursor-pointer flex justify-center w-full items-center'>

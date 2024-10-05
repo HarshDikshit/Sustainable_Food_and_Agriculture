@@ -9,6 +9,7 @@ import {useDispatch, useSelector}   from 'react-redux'
 import {getItems, addItem, updateItem, deleteItem} from '../redux/actions/itemsActions.js'
 import {ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import WeatherApp from './WeatherApp.js';
 
 
 function User() {
@@ -33,7 +34,7 @@ function User() {
   useEffect(()=> isToday(),[])
 
 
-const ListWithWordLimit = ({ items, limit }) => {
+const ListWithWordLimit = ({ items, limit, color }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Function to limit words across multiple <li> items
@@ -64,7 +65,7 @@ const ListWithWordLimit = ({ items, limit }) => {
           <li key={index}>{item}</li>
         ))}
       </ul>
-      <button className='text-green-500' onClick={() => setIsExpanded(!isExpanded)}>
+      <button className={`${color}`} onClick={() => setIsExpanded(!isExpanded)}>
         {isExpanded ? 'Read Less' : 'Read More'}
       </button>
     </div>
@@ -82,6 +83,8 @@ const handleClick = ()=> {
 
   return (
     <div className='w-full flex  flex-col'>
+      {/* create a request */}
+      <section className='w-full flex flex-col'>
       <h1 className='text-white flex m-auto mt-5 text-xl font-bold bg-black rounded-lg py-2 px-3'>Farmer</h1>
       <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Create a Request</h1>
 
@@ -145,7 +148,7 @@ const handleClick = ()=> {
 
   <div>
       <label className='mr-3' htmlFor="date">Date:</label>
-       <input id='date' value={data.date} disabled className='px-3 py-2 bg-gray-200 border-green-400 border-2 rounded-lg' type="text"  />
+      <input id='date' value={data.date} disabled className='px-3 py-2 bg-gray-200 border-green-400 border-2 rounded-lg' type="text"  />
     </div>
 
   <input value={data.contact} onChange={(e)=> setData({...data, contact: e.target.value})} className='px-3 py-2 border-green-400 border-2 rounded-lg' type="text"  placeholder='Contact Number'/>
@@ -156,12 +159,19 @@ const handleClick = ()=> {
         </span>
         <button onClick={handleClick} className='hover:bg-green-600 mx-8 my-5 text-center text-white bg-green-500 border-green-700 border-2 rounded-md font-semibold py-2'>Submit</button>
 
+        </section>
+
+        <section className='my-8'>
+          <WeatherApp/>
+        </section>
+
+        {/* ml and ai models */}
         <section className='w-full flex flex-col mt-5'>
         <h1 className='text-black flex m-auto mt-5 text-2xl mb-5 font-bold'>Artificial Intelligence and Machine Learning Models</h1>
           <div className='w-full flex justify-center items-center'>
-            <div className='border-green-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
+            <div className='border-blue-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Crop Recommendation</h1>
-              <p className='text-justify '> <ListWithWordLimit items={ [
+              <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
     'Optimize crop selection for local conditions.',
     'Choose crops with high market demand.',
     'mproved hand-eye coordination and dexterity: Enhances fine motor skills, allowing for precise movements.',
@@ -170,29 +180,31 @@ const handleClick = ()=> {
              <CropDropDown/>
             </div>
 
-            <div className='border-green-400 border-2 h-auto rounded-md m-2 p-3 w-1/4 mt-30'>
+            <div className='border-blue-400 border-2 h-auto rounded-md m-2 p-3 w-1/4 mt-30'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Food Demand this Year</h1>
-              <p className='text-justify '> <ListWithWordLimit items={ [
+              <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
     'Improved inventory management: Reduces waste, optimizes stock.',
     'Enhanced supply chain efficiency: Streamlines logistics, reduces delays.',
     ' Increased revenue: Maximizes sales, minimizes lost opportunities.'
   ]} limit={20} /></p>
-              <button onClick={()=>navigate('/food-demand')} className='w-full mt-3 bg-green-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Food Demand Prediction</button>
+              <button onClick={()=>navigate('/food-demand')} className='w-full mt-3 bg-blue-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Food Demand Prediction</button>
             </div>
 
-            <div className='border-green-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
+            <div className='border-blue-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Fertilizer Recommendation</h1>
-              <p className='text-justify '> <ListWithWordLimit items={ [
+              <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
     'Increased crop yields: Optimized nutrient application.',
     'Improved crop quality: Enhanced nutritional content.',
     'Reduced water pollution: Minimized fertilizer runoff.',
     'Increased farmer profitability: Optimized fertilizer investment.'
   ]} limit={20} /></p>
-              <Link className='w-full' to='/fertlizer'><button className='w-full mt-3 bg-green-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Fertilizer Recommendation</button></Link>
+              <Link className='w-full' to='/fertlizer'><button className='w-full mt-3 bg-blue-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Fertilizer Recommendation</button></Link>
             </div>
           </div>
         </section>
 
+
+        {/* related blogs  */}
         <section className='w-full flex mb-8 flex-col '>
           <h1 
           onClick={()=> navigate('/blogs')}
@@ -205,7 +217,7 @@ const handleClick = ()=> {
                onClick={()=> navigate('/blogs/organic-farming')}
               className='text-green-500 flex m-auto mt-5 text-lg font-bold'>Organic Farming</h1>
               <p className='text-justify '>
-              <ListWithWordLimit items={ [
+              <ListWithWordLimit color='text-green-400' items={ [
     'Increased interest in sustainable and chemical-free farming practices.',
     'Policies supporting organic agriculture and certification processes.',
     'Organic farming promotes healthier soils by avoiding synthetic fertilizers and pesticides, which can degrade soil quality over time.'
@@ -221,7 +233,7 @@ const handleClick = ()=> {
               onClick={()=> navigate('/blogs/govt-schemes')}
               className='text-green-500 cursor-pointer flex m-auto mt-5 text-lg font-bold'>Government Schemes and Subsidies</h1>
               <p className='text-justify '>
-              <ListWithWordLimit items={ [
+              <ListWithWordLimit color='text-green-400' items={ [
     'Paramparagat Krishi Vikas Yojana (PKVY) promotes organic farming practices by forming clusters of organic farmers and supporting them financially.',
     'The KCC scheme provides short-term credit to farmers at subsidized interest rates for agricultural and allied activities.',
   ]} limit={20} />
@@ -236,7 +248,7 @@ const handleClick = ()=> {
               onClick={()=> navigate('/blogs/irrigation')}
               className='text-green-500 cursor-pointer flex m-auto mt-5 text-lg font-bold'>Smart Irrigation Systems</h1>
               <p className='text-justify '>
-              <ListWithWordLimit items={ [
+              <ListWithWordLimit color='text-green-400' items={ [
     'Popularization of drip irrigation and sprinkler systems for water efficiency',
     'Government subsidies and schemes supporting water-efficient irrigation.',
   ]} limit={20} />

@@ -4,7 +4,7 @@ import Animation2 from '../LottieAnimations/Animation2';
 import Animation4 from '../LottieAnimations/Animation4';
 
 const CropDemandPredictor = () => {
-  const [predictions, setPredictions] = useState([]);
+  const [predictions, setPredictions] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,16 +14,20 @@ const CropDemandPredictor = () => {
     try {
       const response = await fetch('/predictions');
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       setPredictions(data);
-    } catch (error) {
-      console.error('Error fetching predictions:', error);
+
+      
+    } catch (err) {
       setError('Failed to fetch predictions. Please try again.');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
+
 
   return (
 <>
@@ -69,26 +73,18 @@ const CropDemandPredictor = () => {
         {loading ? 'Loading...' : 'Get Predictions'}
       </button>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {predictions.length > 0 && (
-        <div className="overflow-x-auto py-10">
-          <table className="min-w-full bg-white">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-2 px-4 border">Crop</th>
-                <th className="py-2 px-4 border">Year</th>
-                <th className="py-2 px-4 border">Predicted Demand</th>
-              </tr>
-            </thead>
-            <tbody>
-              {predictions.map((pred, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                  <td className="py-2 px-4 border">{pred.crop}</td>
-                  <td className="py-2 px-4 border">{pred.year}</td>
-                  <td className="py-2 px-4 border">{pred.predicted_demand.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+     
+      {predictions && (
+        <div>
+          <h2 className='font-bold'>Predictions for Year {predictions.year}</h2>
+          <ul className='list-disc pl-3'>
+            {Object.entries(predictions.predictions).map(([crop, value]) => (
+              <li key={crop}>
+                {crop}: {value.toFixed(2)}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
