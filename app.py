@@ -29,7 +29,7 @@ patch_sklearn()
 
 #-------------------------------------------------------------------------------------------------------------------
 
-# define model paths
+# Define model paths
 
 #model_1
 MODEL_1_PATH_CROP_PREDICTION_MODEL_INTEL = os.path.join('model', 'model_1','crop_prediction_model_intel.joblib' )
@@ -155,10 +155,10 @@ pd.read_csv(MODEL_4_CROP_YIELD_CSV)
                         growth_rates = (last_3_years['Demand'].pct_change() + 1).dropna()
                         avg_growth_rate = growth_rates.mean()
                         
-                        # Get the last known demand
+                        # fetch the last known demand
                         last_known_demand = crop_data['Demand'].iloc[-1]
                         
-                        # Predict using the model
+                        # Predict
                         crop_scaled_data = X[X[:, 1] == encoding]
                         if len(crop_scaled_data) > 0:
                             latest_crop_data = crop_scaled_data[-1]
@@ -226,8 +226,50 @@ app.register_blueprint(kisanvani)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 
-#---------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------
 
+#-------------------------- PREDICTIONS---------------------------------------------------------------------------
+
+
+#-------model_1------------------------------Specific Crop Recommendation-------
+
+@app.route('/predict', methods=['POST'])
+def predict1():
+    print("Received prediction request")
+    try:
+        data = request.json
+        print("Received data:", data)  # Debug
+        features = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall']
+        input_data = np.array([[float(data[feature]) for feature in features]])
+        
+        # Scaling using the Intel oneDAL scaler
+        input_data_scaled = scaler1.transform(input_data)
+        
+        # get probability estimates for all crops using Intel
+        probabilities = model1.predict_proba(input_data_scaled)[0]
+        
+        crop_names = model1.classes_
+        
+        # create a list of (crop, probability)
+        crop_probabilities = list(zip(crop_names, probabilities))
+        
+        # sorting the list by probability in descending order while showing result
+        crop_probabilities.sort(key=lambda x: x[1], reverse=True)
+        
+        # return the top 5 crops with their probabilities
+        top_predictions = [{"crop": crop, "probability": float(prob)} for crop, prob in crop_probabilities[:5]]
+        
+        print("Predictions:", top_predictions) 
+        return jsonify({
+            "status": "success",
+            "predictions": top_predictions
+        })
+    except Exception as e:
+        print("Error occurred:", str(e))  #debug
+        return jsonify({
+            "status": "error",
+            "error": str(e)
+        }), 400
 
 def predict_crops(input_data, top_n=5):
     input_data_scaled = scaler1.transform(input_data)
@@ -237,50 +279,6 @@ def predict_crops(input_data, top_n=5):
     crop_probabilities.sort(key=lambda x: x[1], reverse=True)
     return crop_probabilities[:top_n]
 
-#-------------------------- PREDICTIONS-----------------------------------------------------------------------------------------------
-
-
-#-------model_1------------------------------Specific Crop Recommendation-------
-
-@app.route('/predict', methods=['POST'])
-def predict1():
-    print("Received prediction request")  # Debug print
-    try:
-        data = request.json
-        print("Received data:", data)  # Debug print
-        features = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall']
-        input_data = np.array([[float(data[feature]) for feature in features]])
-        
-        # Scale the input data using the Intel oneDAL scaler
-        input_data_scaled = scaler1.transform(input_data)
-        
-        # Get probability estimates for all crops using the Intel oneDAL model
-        probabilities = model1.predict_proba(input_data_scaled)[0]
-        
-        # Get the crop names (classes)
-        crop_names = model1.classes_
-        
-        # Create a list of (crop, probability) tuples
-        crop_probabilities = list(zip(crop_names, probabilities))
-        
-        # Sort the list by probability in descending order
-        crop_probabilities.sort(key=lambda x: x[1], reverse=True)
-        
-        # Return the top 5 crops with their probabilities
-        top_predictions = [{"crop": crop, "probability": float(prob)} for crop, prob in crop_probabilities[:5]]
-        
-        print("Predictions:", top_predictions)  # Debug print
-        return jsonify({
-            "status": "success",
-            "predictions": top_predictions
-        })
-    except Exception as e:
-        print("Error occurred:", str(e))  # Debug print
-        return jsonify({
-            "status": "error",
-            "error": str(e)
-        }), 400
-
 
 #------model_2--------------------------------Fertilizer Recommendation-----------
 
@@ -289,7 +287,7 @@ def predict2():
     data = request.json
     
     try:
-        # Extract and process features
+        #extract and process features
         features = [
             float(data['temperature']),
             float(data['humidity']),
@@ -301,11 +299,11 @@ def predict2():
             float(data['phosphorous'])
         ]
         
-        # Make prediction
+        # make prediction
         input_data = np.array([features])
         prediction = rf_pipeline.predict(input_data)
         
-        # Decode prediction
+        # decode prediction
         fertilizer = fertname_encoder.inverse_transform(prediction)[0]
         
         return jsonify({'prediction': fertilizer})
