@@ -21,13 +21,15 @@ from routes.auth_route import auth_bp
 from routes.weather_forecast_api import weather_bp
 from routes.air_quality import airquality_bp
 from routes.request_orders import request_orders
-# from routes.kisanvani import kisanvani
+from routes.kisanvani import kisanvani
 from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 from  config import Config
 patch_sklearn()
 
-# define model paths
+#-------------------------------------------------------------------------------------------------------------------
+
+# Define model paths
 
 #model_1
 MODEL_1_PATH_CROP_PREDICTION_MODEL_INTEL = os.path.join('model', 'model_1','crop_prediction_model_intel.joblib' )
@@ -55,6 +57,8 @@ MODEL_4_PATH_LE_SEASON = os.path.join('model', 'model_4','le_season2.joblib' )
 MODEL_4_PATH_LE_CROP = os.path.join('model', 'model_4','le_crop2.joblib' )
 MODEL_4_CROP_YIELD_CSV = os.path.join('model', 'model_4', 'crop_yield.csv')
 
+#------------------------------------------------------------------------------------------------------------------
+
 # Load the model and encoders
 
 #model_1
@@ -67,24 +71,37 @@ soil_type_encoder = pickle.load(open(MODEL_2_SOIL_TYPE_ENCODER, "rb"))
 crop_type_encoder = pickle.load(open(MODEL_2_CROP_TYPE_ENCODER, "rb"))
 fertname_encoder = pickle.load(open(MODEL_2_FERTNAME_ENCODER, "rb"))
 
+#model_3
+#INSIDE THE MODEL 3 BACKEND FUNCTION
+
 #model_4
 model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
 le_season2 = joblib.load(MODEL_4_PATH_LE_SEASON)
 le_state2 = joblib.load(MODEL_4_PATH_STATE)
 le_crop2 = joblib.load(MODEL_4_PATH_LE_CROP)
 
+#---------------------------------------------------------------------------------------------------------------------------
 
 # Load datasets
 
-#model_4
-pd.read_csv(MODEL_4_CROP_YIELD_CSV)
+#model_1
+       #no need
+
+#model_2
+       #no need
 
 #model_3
 df_demand = pd.read_csv(MODEL_3_PATH_CROP_DEMAND)
 df_price = pd.read_csv(MODEL_3_PATH_CROP_PRICE)
 
+#model_4
+pd.read_csv(MODEL_4_CROP_YIELD_CSV)
 
-#model_3 function
+#--------------------------------------------------------------------------------------------------------------------------
+
+# FUNCTION of BACKEND
+
+        #model_3 only
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -138,10 +155,10 @@ def predict_next_year(model, scaler, X, crop_encodings, latest_year, df_yearly):
             growth_rates = (last_3_years['Demand'].pct_change() + 1).dropna()
             avg_growth_rate = growth_rates.mean()
             
-            # Get the last known demand
+            # fetch the last known demand
             last_known_demand = crop_data['Demand'].iloc[-1]
             
-            # Predict using the model
+            # Predict
             crop_scaled_data = X[X[:, 1] == encoding]
             if len(crop_scaled_data) > 0:
                 latest_crop_data = crop_scaled_data[-1]
@@ -175,12 +192,16 @@ def predict_next_year(model, scaler, X, crop_encodings, latest_year, df_yearly):
 
 model, X_scaled, crop_encodings, latest_year, scaler, df_yearly = load_model_and_data()
 
+#---------------------------------------------------------------------------------------------------------------------------------------
 
+#Flask app STARTS here
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = Config.MONGO_URI
 mongo = PyMongo(app)
 from routes import product_routes
+
+# Calling routes(blueprint)
 
 #Registering the products route blueprint 
 app.register_blueprint(product_routes.products)
@@ -201,10 +222,54 @@ app.register_blueprint(airquality_bp)
 app.register_blueprint(request_orders)
 
 # #Register the kisanvani  blueprint
-# app.register_blueprint(kisanvani)
+app.register_blueprint(kisanvani)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 
+#-------------------------------------------------------------------------------------------------------------------------------
+
+#-------------------------- PREDICTIONS---------------------------------------------------------------------------
+
+
+#-------model_1------------------------------Specific Crop Recommendation-------
+
+@app.route('/predict', methods=['POST'])
+def predict1():
+    print("Received prediction request")
+    try:
+        data = request.json
+        print("Received data:", data)  # Debug
+        features = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall']
+        input_data = np.array([[float(data[feature]) for feature in features]])
+        
+        # Scaling using the Intel oneDAL scaler
+        input_data_scaled = scaler1.transform(input_data)
+        
+        # get probability estimates for all crops using Intel
+        probabilities = model1.predict_proba(input_data_scaled)[0]
+        
+        crop_names = model1.classes_
+        
+        # create a list of (crop, probability)
+        crop_probabilities = list(zip(crop_names, probabilities))
+        
+        # sorting the list by probability in descending order while showing result
+        crop_probabilities.sort(key=lambda x: x[1], reverse=True)
+        
+        # return the top 5 crops with their probabilities
+        top_predictions = [{"crop": crop, "probability": float(prob)} for crop, prob in crop_probabilities[:5]]
+        
+        print("Predictions:", top_predictions) 
+        return jsonify({
+            "status": "success",
+            "predictions": top_predictions
+        })
+    except Exception as e:
+        print("Error occurred:", str(e))  #debug
+        return jsonify({
+            "status": "error",
+            "error": str(e)
+        }), 400
 
 # def predict_crops(input_data, top_n=5):
 #     input_data_scaled = scaler1.transform(input_data)
@@ -215,56 +280,14 @@ print(f"scikit-learn version: {sklearn.__version__}")
 #     return crop_probabilities[:top_n]
 
 
-#-------model_1-----------
-
-@app.route('/predict', methods=['POST'])
-def predict1():
-    print("Received prediction request")  # Debug print
-    try:
-        data = request.json
-        print("Received data:", data)  # Debug print
-        features = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall']
-        input_data = np.array([[float(data[feature]) for feature in features]])
-        
-        # Scale the input data using the Intel oneDAL scaler
-        input_data_scaled = scaler1.transform(input_data)
-        
-        # Get probability estimates for all crops using the Intel oneDAL model
-        probabilities = model1.predict_proba(input_data_scaled)[0]
-        
-        # Get the crop names (classes)
-        crop_names = model1.classes_
-        
-        # Create a list of (crop, probability) tuples
-        crop_probabilities = list(zip(crop_names, probabilities))
-        
-        # Sort the list by probability in descending order
-        crop_probabilities.sort(key=lambda x: x[1], reverse=True)
-        
-        # Return the top 5 crops with their probabilities
-        top_predictions = [{"crop": crop, "probability": float(prob)} for crop, prob in crop_probabilities[:5]]
-        
-        print("Predictions:", top_predictions)  # Debug print
-        return jsonify({
-            "status": "success",
-            "predictions": top_predictions
-        })
-    except Exception as e:
-        print("Error occurred:", str(e))  # Debug print
-        return jsonify({
-            "status": "error",
-            "error": str(e)
-        }), 400
-
-
-#------model_2---------
+#------model_2--------------------------------Fertilizer Recommendation-----------
 
 @app.route('/api/predict', methods=['POST'])
 def predict2():
     data = request.json
     
     try:
-        # Extract and process features
+        #extract and process features
         features = [
             float(data['temperature']),
             float(data['humidity']),
@@ -276,11 +299,11 @@ def predict2():
             float(data['phosphorous'])
         ]
         
-        # Make prediction
+        # make prediction
         input_data = np.array([features])
         prediction = rf_pipeline.predict(input_data)
         
-        # Decode prediction
+        # decode prediction
         fertilizer = fertname_encoder.inverse_transform(prediction)[0]
         
         return jsonify({'prediction': fertilizer})
@@ -290,7 +313,25 @@ def predict2():
 
 
 
-#-----model_4--------
+#---------model 3---------------------Food Demand this Year--------------------
+
+@app.route('/predictions', methods=['GET'])
+def predict3():
+    try:
+        predictions, next_year = predict_next_year(model, scaler, X_scaled, crop_encodings, latest_year, df_yearly)
+        response = {
+            'year': int(next_year),
+            'predictions': predictions
+        }
+        logger.info(f"Prediction request processed successfully. Response: {response}")
+        return jsonify(response)
+    except Exception as e:
+        logger.error(f"Error during prediction: {e}")
+        return jsonify({'error': 'An error occurred during prediction'}), 500
+
+
+
+#---------model_4-------------Simple Crop Recommendation----------------------
 
 @app.route('/simple-predict', methods=['POST'])
 def predict():
@@ -307,25 +348,8 @@ def predict():
     prediction = predict_crop(season, state)
     return jsonify({'prediction': prediction})
 
-#-------model 3-------------------
 
-
-
-
-@app.route('/predictions', methods=['GET'])
-def predict3():
-    try:
-        predictions, next_year = predict_next_year(model, scaler, X_scaled, crop_encodings, latest_year, df_yearly)
-        response = {
-            'year': int(next_year),
-            'predictions': predictions
-        }
-        logger.info(f"Prediction request processed successfully. Response: {response}")
-        return jsonify(response)
-    except Exception as e:
-        logger.error(f"Error during prediction: {e}")
-        return jsonify({'error': 'An error occurred during prediction'}), 500
-
+#------------------------------------------------------------------------------------------------------------------------------------
 
 
 @app.route('/')

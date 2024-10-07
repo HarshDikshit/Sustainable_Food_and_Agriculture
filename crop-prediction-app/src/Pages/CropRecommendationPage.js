@@ -33,7 +33,7 @@ const CropRecommendationPage = () => {
         try {
           const response = await axios.get(`${API_URL}/`);
           setServerStatus('Online');
-          setServerInfo(response.data);
+          setServerInfo(response.data.predictions);
         } catch (error) {
           setServerStatus('Offline');
           console.error('Server status check failed:', error);
@@ -51,7 +51,7 @@ const CropRecommendationPage = () => {
         setPredictions([]);
     
         try {
-          const response = await axios.post(`/predict`, formData);
+          const response = await axios.post('/predict', formData);
           if (response.data.status === 'success') {
             setPredictions(response.data.predictions);
           } else {
@@ -156,7 +156,6 @@ const CropRecommendationPage = () => {
                       </div>
               </div>
               <button
-              disabled={isLoading || serverStatus !== 'Online'}
             className={`${isLoading && 'bg-blue-400'}`}
               type="submit">{isLoading ? 'Predicting...' : 'Predict Crop that is suitable'}</button>
 
