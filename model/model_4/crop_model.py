@@ -5,8 +5,19 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
+import os
 
-df = pd.read_csv('crop_yield.csv')
+
+# model_4
+MODEL_4_PATH_CROP_PREDICTION_MODEL = os.path.join('model', 'model_4','crop_prediction_model2.joblib' )
+MODEL_4_PATH_STATE = os.path.join('model', 'model_4','le_state2.joblib' )
+MODEL_4_PATH_LE_SEASON = os.path.join('model', 'model_4','le_season2.joblib' )
+MODEL_4_PATH_LE_CROP = os.path.join('model', 'model_4','le_crop2.joblib' )
+MODEL_4_PATH_CLEANED_CROP_DATA = os.path.join('model', 'model_4','cleaned_crop_data.csv' )
+MODEL_4_PATH_CROP_YIELD = os.path.join('model', 'model_4','crop_yield.csv' )
+
+
+df = pd.read_csv(MODEL_4_PATH_CROP_YIELD)
 
 def clean_column(col):
     return col.strip() if isinstance(col, str) else col
@@ -14,7 +25,7 @@ def clean_column(col):
 for column in df.columns:
     df[column] = df[column].apply(clean_column)
 
-df.to_csv('cleaned_crop_data.csv', index=False)
+df.to_csv(MODEL_4_PATH_CLEANED_CROP_DATA, index=False)
 print("Cleaned data saved to 'cleaned_crop_data.csv'")
 
 X = df[['Season', 'State', 'Annual_Rainfall', 'Production', 'Yield']]
@@ -38,19 +49,19 @@ y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy}")
 
-joblib.dump(clf, 'crop_prediction_model2.joblib')
-joblib.dump(le_season2, 'le_season2.joblib')
-joblib.dump(le_state2, 'le_state2.joblib')
-joblib.dump(le_crop2, 'le_crop2.joblib')
+joblib.dump(clf, MODEL_4_PATH_CROP_PREDICTION_MODEL)
+joblib.dump(le_season2, MODEL_4_PATH_LE_SEASON)
+joblib.dump(le_state2, MODEL_4_PATH_STATE)
+joblib.dump(le_crop2, MODEL_4_PATH_LE_CROP)
 
 def predict_crop(season, state):
     
-    model = joblib.load('crop_prediction_model2.joblib')
-    le_season = joblib.load('le_season2.joblib')
-    le_state = joblib.load('le_state2.joblib')
-    le_crop = joblib.load('le_crop2.joblib')
+    model = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
+    le_season = joblib.load(MODEL_4_PATH_LE_SEASON)
+    le_state = joblib.load(MODEL_4_PATH_STATE)
+    le_crop = joblib.load(MODEL_4_PATH_LE_CROP)
     
-    df = pd.read_csv('cleaned_crop_data.csv')
+    df = pd.read_csv(MODEL_4_PATH_CLEANED_CROP_DATA)
     
     #encoding input
     season_encoded = le_season.transform([season.strip()])[0]

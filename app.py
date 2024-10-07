@@ -21,7 +21,7 @@ from routes.auth_route import auth_bp
 from routes.weather_forecast_api import weather_bp
 from routes.air_quality import airquality_bp
 from routes.request_orders import request_orders
-from routes.kisanvani import kisanvani
+# from routes.kisanvani import kisanvani
 from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 from  config import Config
@@ -68,7 +68,7 @@ crop_type_encoder = pickle.load(open(MODEL_2_CROP_TYPE_ENCODER, "rb"))
 fertname_encoder = pickle.load(open(MODEL_2_FERTNAME_ENCODER, "rb"))
 
 #model_4
-model4 = joblib.load('crop_prediction_model2.joblib')
+model4 = joblib.load(MODEL_4_PATH_CROP_PREDICTION_MODEL)
 le_season2 = joblib.load(MODEL_4_PATH_LE_SEASON)
 le_state2 = joblib.load(MODEL_4_PATH_STATE)
 le_crop2 = joblib.load(MODEL_4_PATH_LE_CROP)
@@ -201,18 +201,18 @@ app.register_blueprint(airquality_bp)
 app.register_blueprint(request_orders)
 
 # #Register the kisanvani  blueprint
-app.register_blueprint(kisanvani)
+# app.register_blueprint(kisanvani)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 
 
-def predict_crops(input_data, top_n=5):
-    input_data_scaled = scaler1.transform(input_data)
-    probabilities = model1.predict_proba(input_data_scaled)[0]
-    crop_names = model1.classes_
-    crop_probabilities = list(zip(crop_names, probabilities))
-    crop_probabilities.sort(key=lambda x: x[1], reverse=True)
-    return crop_probabilities[:top_n]
+# def predict_crops(input_data, top_n=5):
+#     input_data_scaled = scaler1.transform(input_data)
+#     probabilities = model1.predict_proba(input_data_scaled)[0]
+#     crop_names = model1.classes_
+#     crop_probabilities = list(zip(crop_names, probabilities))
+#     crop_probabilities.sort(key=lambda x: x[1], reverse=True)
+#     return crop_probabilities[:top_n]
 
 
 #-------model_1-----------

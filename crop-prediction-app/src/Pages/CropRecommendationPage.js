@@ -51,7 +51,7 @@ const CropRecommendationPage = () => {
         setPredictions([]);
     
         try {
-          const response = await axios.post(`${API_URL}/predict`, formData);
+          const response = await axios.post(`/predict`, formData);
           if (response.data.status === 'success') {
             setPredictions(response.data.predictions);
           } else {
