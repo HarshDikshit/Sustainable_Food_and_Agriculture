@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import {useDispatch, useSelector}   from 'react-redux'
 import axios from 'axios';
-import {ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
-import {LOGIN} from '../../redux/reducers/authReducer';
+import {ADMIN_LOGIN} from '../../redux/reducers/authReducer';
 
 
 function LoginRegister({
@@ -28,20 +26,18 @@ function LoginRegister({
     setMessage('');
     
     const endpoint = isRegister ? '/auth/register' : '/auth/login';  // API endpoint
-    const payload = { username, password };  // Data to send
+    const payload = { type: 'admin',username, password };  // Data to send
 
     try {
         const response = await axios.post(endpoint, payload);
         setMessage(response.data.message);
-        toast.success(response.data.message)
-        dispatch({type: LOGIN})
+        dispatch({type: ADMIN_LOGIN})
         setTimeout(() => {
             navigate('/admin')
             click()
         }, 1000);
       } catch (err) {
         setError(err.response?.data?.error || 'Something went wrong.');
-        toast.error(err.response?.data?.error || 'Something went wrong.')
       }
     };
   
@@ -86,20 +82,10 @@ function LoginRegister({
 
         <button className='m-auto flex  justify-center items-center w-full py-1 rounded-md border-green-700 bg-green-500 border-2 text-white my-3' type="submit">{isRegister ? 'Register' : 'Login'}</button>
       </form>
-      {/* <button className='bg-transparent text-black text-center m-auto' onClick={() => setIsRegister(!isRegister)}>
+      <button className='bg-transparent text-black text-center m-auto' onClick={() => setIsRegister(!isRegister)}>
         {isRegister ? 'Already have an account? Login' : 'Don’t have an account? Register'}
-      </button> */}
+      </button>
     </div>
-    <ToastContainer 
-            position='top-right'  
-            autoClose={1000} 
-            hideProgressBar={false}
-            newestOnTop={false}            
-            closeOnClick                   
-            rtl={false}               
-            draggable                      
-            pauseOnHover                   
-            theme="colored" /> 
         </div>
       </div>
      

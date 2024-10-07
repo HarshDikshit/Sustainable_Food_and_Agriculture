@@ -20,9 +20,11 @@ import CropDemandPredictor from './Pages/CropDemandPredictor.js';
 import Admin from './Pages/Admin.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import WeatherApp from './Pages/WeatherApp.js';
-import ChatbotPopup from './Pages/ChatBot.js';
 import Feedback from './Pages/Feedback.js';
 import QuickLinks from './Pages/QuickLinks.js';
+import Marketplace from './Pages/Marketplace.js';
+import PersonailsedChatbot from './Pages/PersonailsedChatbot.js';
+import VendorInventory from './components/Vendor/VendorInventory.js';
 
 
 
@@ -33,23 +35,26 @@ function App() {
       <Router>
     <Header/>
       <Routes>
-      <Route path='/' element={<><HomePage/><ChatbotPopup /></>}/>
+      <Route path='/' element={<><HomePage/><PersonailsedChatbot /></>}/>
         <Route path='/crop-recommendation' element={<CropRecommendationPage/>}/>
         <Route path='/about' element={<AboutUs/>}/>
         <Route path='/fertlizer' element={<FertilizerRecommendation/>}/>
-        <Route path='/user-create-request' element={<User/>}/>
+        <Route path='/farmer' element={<ProtectedRoute><User/></ProtectedRoute>}/>
         <Route path='/blogs/govt-schemes' element={<BlogsGovtSchemes/>}/>
         <Route path='/blogs/organic-farming' element={<BlogsOrganic/>}/>
         <Route path='/blogs/irrigation' element={<BlogIrrigation/>}/>
         <Route path='/food-demand' element={<CropDemandPredictor/>}/>
         <Route path='/simple-crop-recommendation' element={<SimpleCropRecommendation/>}/>
-        <Route path='/supplier' element={<Supplier/>}/>
+        <Route path='/supplier' element={<ProtectedRoute><Supplier/></ProtectedRoute>}/>
         <Route path='/blogs/ev' element={<BlogEVs/>}/>
-        <Route path='/state-admin/:stateName' element={<StateAdmin/>}/>
+        <Route path='/state-admin' element={<ProtectedRoute><StateAdmin/></ProtectedRoute>}/>
         <Route path='/whatwedo' element={<WharWeDo/>}/>
         <Route path='/admin' element={<ProtectedRoute><Admin/></ProtectedRoute>}/>
         <Route path='/feedback' element={<Feedback/>}/>
         <Route path='/quicklinks' element={<QuickLinks/>}/>
+        <Route path='/vendor-inventory' element={<VendorInventory/>}/>
+
+        <Route path='/marketplace' element={<ProtectedRoute><Marketplace/></ProtectedRoute>}/>
       </Routes>
       <Footer/>
     </Router>

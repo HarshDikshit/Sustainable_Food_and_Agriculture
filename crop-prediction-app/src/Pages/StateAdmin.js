@@ -5,7 +5,7 @@ import {FaInfo} from 'react-icons/fa6'
 import CropDropDown from '../components/CropDropDown';
 import TableWithDataFetch from '../components/TableWithDataFetch';
 import TableDataStateAdminFetch from '../components/TableDataStateAdminFetch ';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {getItems, addItem, updateItem, deleteItem} from '../redux/actions/itemsActions.js'
 import {ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,20 +18,18 @@ function StateAdmin() {
   const navigate=useNavigate()
   const [todayDate, setTodayDate]= useState();
  
- 
+  const {userInfo, stateadminAuthStatus} = useSelector((state)=> state.auth)
   useEffect(()=> isToday(),[])
 
   const dispatch = useDispatch();
   const [data, setData] = useState({
     crop: "", 
-    state: stateName,
+    state: stateadminAuthStatus? userInfo.state: '',
     date: "",
-    contact:"",
+    contact: stateadminAuthStatus? userInfo.contact: '',
     supply: "",
     partners: "Supplier"
   });
-
-  useEffect(()=> setData((prev)=> ({...prev, state:stateName })),[stateName])
 
   const isToday = (date)=> {
     const Today =new Date();

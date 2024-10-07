@@ -10,20 +10,32 @@ import {getItems, addItem, updateItem, deleteItem} from '../redux/actions/itemsA
 import {ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WeatherApp from './WeatherApp.js';
+import { div } from '@tensorflow/tfjs';
 
 
 function User() {
+  const {userInfo, farmerAuthStatus} = useSelector((state)=> state.auth)
+  console.log(userInfo);
+  
   const dispatch = useDispatch();
   const [data, setData] = useState({
     crop: "", 
-    state: "",
+    state: farmerAuthStatus? userInfo.state: '',
     date: "",
-    contact:"",
+    contact: farmerAuthStatus? userInfo.contact: '',
     supply: "Surplus",
     partners: "Farmer"
   });
+
+  
+    const video= [
+      {id: 'JeU_EYFH1Jk', title: 'Artificial intelligence comes to farming in India | BBC News'},
+      {id: 'sMqtwbKc8EA', title: '8 Sustainability ideas that will change the world '},
+      {id: '2-aB-GzLaLY', title: 'Journalist Converts 3 Storey Home Into Hydroponics Farm, Earns Rs 70 Lakh/Year | The Better India'},
+    ]
+  
  
-  const navigate=useNavigate()
+  const navigate = useNavigate()
  
   const [signD, setSignD]= useState(false)
   const isToday = (date)=> {
@@ -103,7 +115,7 @@ const handleClick = ()=> {
   </select>
 
   <label htmlFor="state">State:</label>
-  <select className='border-green-400 border-2' name="state" id="state" value={data.state} onChange={(e)=> setData({...data, state: e.target.value})}>
+  <select disabled className='bg-gray-200 border-green-400 border-2' name="state" id="state" value={data.state} onChange={(e)=> setData({...data, state: e.target.value})}>
   <option disabled value="" >Select</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -161,7 +173,7 @@ const handleClick = ()=> {
 
         </section>
 
-        <section className='my-8'>
+        <section className='my-8 px-10'>
           <WeatherApp/>
         </section>
 
@@ -172,32 +184,32 @@ const handleClick = ()=> {
             <div className='border-blue-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Crop Recommendation</h1>
               <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
-    'Optimize crop selection for local conditions.',
-    'Choose crops with high market demand.',
-    'mproved hand-eye coordination and dexterity: Enhances fine motor skills, allowing for precise movements.',
-    'Enhanced finger strength and flexibility: Strengthens fingers, reducing fatigue and injury risk.'
-  ]} limit={20} /></p>
+              'Optimize crop selection for local conditions.',
+              'Choose crops with high market demand.',
+              'mproved hand-eye coordination and dexterity: Enhances fine motor skills, allowing for precise movements.',
+              'Enhanced finger strength and flexibility: Strengthens fingers, reducing fatigue and injury risk.'
+            ]} limit={20} /></p>
              <CropDropDown/>
             </div>
 
             <div className='border-blue-400 border-2 h-auto rounded-md m-2 p-3 w-1/4 mt-30'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Food Demand this Year</h1>
               <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
-    'Improved inventory management: Reduces waste, optimizes stock.',
-    'Enhanced supply chain efficiency: Streamlines logistics, reduces delays.',
-    ' Increased revenue: Maximizes sales, minimizes lost opportunities.'
-  ]} limit={20} /></p>
+            'Improved inventory management: Reduces waste, optimizes stock.',
+            'Enhanced supply chain efficiency: Streamlines logistics, reduces delays.',
+            ' Increased revenue: Maximizes sales, minimizes lost opportunities.'
+          ]} limit={20} /></p>
               <button onClick={()=>navigate('/food-demand')} className='w-full mt-3 bg-blue-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Food Demand Prediction</button>
             </div>
 
             <div className='border-blue-400 border-2 rounded-md m-2 p-3 w-1/4 mb-56'>
               <h1 className='text-black flex m-auto mt-5 text-lg font-bold'>Fertilizer Recommendation</h1>
               <p className='text-justify '> <ListWithWordLimit color='text-blue-400' items={ [
-    'Increased crop yields: Optimized nutrient application.',
-    'Improved crop quality: Enhanced nutritional content.',
-    'Reduced water pollution: Minimized fertilizer runoff.',
-    'Increased farmer profitability: Optimized fertilizer investment.'
-  ]} limit={20} /></p>
+                'Increased crop yields: Optimized nutrient application.',
+                'Improved crop quality: Enhanced nutritional content.',
+                'Reduced water pollution: Minimized fertilizer runoff.',
+                'Increased farmer profitability: Optimized fertilizer investment.'
+              ]} limit={20} /></p>
               <Link className='w-full' to='/fertlizer'><button className='w-full mt-3 bg-blue-500 text-lg text-white font-semibold text-center py-2 rounded-md'>Fertilizer Recommendation</button></Link>
             </div>
           </div>
@@ -256,6 +268,19 @@ const handleClick = ()=> {
               </p>
             </div>
           </div>
+        </section>
+
+        {/* educational videos */}
+        <h1 className='m-auto text-3xl font-bold'>Educational Purpose:</h1>
+        <section  className='w-full flex mb-8 gap-4 px-10 grid-cols-3'>
+         
+            {video.map((item,index)=> (
+              <a className='p-3 w-1/3 space-y-4 rounded-md shadow-lg' href={`https://www.youtube.com/watch?v=${item.id}`}>
+              
+                <img src={`https://img.youtube.com/vi/${item.id}/0.jpg`} alt={item.title} />
+                <p className='text-lg font-semibold'>{item.title}</p>
+              </a>
+            ))}
         </section>
 
         <Request data={data} click={()=>{

@@ -19,6 +19,9 @@ function Footer() {
           <div onClick={()=> navigate('/quicklinks')}  className="cursor-pointer font-semibold text-green-500">
             <h3>Quick Links</h3>
           </div>
+          <div onClick={()=> navigate('/feedback')}  className="cursor-pointer font-semibold text-green-500">
+            <h3>Feedback</h3>
+          </div>
           <div   className="cursor-pointer font-semibold text-green-500">
            <a href={`mailto:abc@gmail.com?subject=Contact%20Us`}><h3>Contact Us</h3></a> 
           </div>

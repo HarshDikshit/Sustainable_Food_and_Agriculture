@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import "./HomePage.css"
 import Animation1 from '../LottieAnimations/Animation1.js';
-import ChatbotPopup from './ChatBot.js';
+import AirQualityApp from '../components/AirQuality.js';
+
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +64,8 @@ const HomePage = () => {
             </div>
             </div>
           </section>
+
+          <AirQualityApp/>
 
       <main>
         <div className="container">

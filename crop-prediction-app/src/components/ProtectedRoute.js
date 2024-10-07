@@ -3,12 +3,15 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 function ProtectedRoute({children}) {
-    const authStatus = useSelector((state)=> state.auth.authStatus)
+    const {adminAuthStatus, farmerAuthStatus, supplierAuthStatus, stateadminAuthStatus, consumerAuthStatus, vendorAuthStatus} = useSelector((state)=> state.auth)
 
-    if(!authStatus){
-        return <Navigate to='/'/>
+    if(adminAuthStatus || farmerAuthStatus || supplierAuthStatus || stateadminAuthStatus || consumerAuthStatus || vendorAuthStatus){
+      return children;
+    }else{
+      return <Navigate to='/'/>
     }
-  return children;
+   
+
 }
 
 export default ProtectedRoute
