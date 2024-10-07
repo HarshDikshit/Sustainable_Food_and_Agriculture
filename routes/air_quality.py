@@ -12,12 +12,12 @@ airquality_bp= Blueprint('airquality', __name__)
 
 @airquality_bp.route('/api/air-quality', methods=['GET'])
 def get_air_quality():
-    # Setup the Open-Meteo API client with cache and retry on error
+    #Open-Meteo API client setup
     cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     openmeteo = openmeteo_requests.Client(session=retry_session)
 
-    # API parameters
+    # parameters of API
     url = "https://air-quality-api.open-meteo.com/v1/air-quality"
     params = {
         "latitude": 26.4652,
@@ -28,11 +28,11 @@ def get_air_quality():
         "forecast_days": 1
     }
 
-    # Make the API request
+    #API request
     responses = openmeteo.weather_api(url, params=params)
     response = responses[0]
 
-    # Process current air quality data
+    #current air quality data processing
     current = response.Current()
     current_data = {
         "time": datetime.fromtimestamp(current.Time()).isoformat(),
@@ -43,7 +43,7 @@ def get_air_quality():
         "uv_index_clear_sky": current.Variables(4).Value()
     }
 
-    # # Process hourly air quality data
+    # # process hourly air quality data
     # hourly = response.Hourly()
     # hourly_data = {
     #     "time": [datetime.fromtimestamp(t).isoformat() for t in hourly.Time()],
@@ -51,7 +51,7 @@ def get_air_quality():
     #     "pm2_5": hourly.Variables(1).ValuesAsNumpy().tolist(),
     #     "uv_index": hourly.Variables(2).ValuesAsNumpy().tolist()
     # }
-    # Alternative hourly data processing
+    # hourly data processing
     hourly = response.Hourly()
     hourly_time = hourly.Time()
     hourly_data = {
