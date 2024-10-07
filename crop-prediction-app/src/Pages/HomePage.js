@@ -64,8 +64,9 @@ const HomePage = () => {
             </div>
             </div>
           </section>
-
+          <section className='my-8'>
           <AirQualityApp/>
+          </section>
 
       <main>
         <div className="container">

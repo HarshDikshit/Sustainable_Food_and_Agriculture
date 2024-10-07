@@ -20,6 +20,8 @@ from sklearnex import patch_sklearn
 from routes.auth_route import auth_bp
 from routes.weather_forecast_api import weather_bp
 from routes.air_quality import airquality_bp
+from routes.request_orders import request_orders
+from routes.kisanvani import kisanvani
 from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 from  config import Config
@@ -194,6 +196,12 @@ app.register_blueprint(weather_bp)
 
 #Register the air quality  blueprint
 app.register_blueprint(airquality_bp)
+
+#Register the request_orders  blueprint
+app.register_blueprint(request_orders)
+
+# #Register the kisanvani  blueprint
+app.register_blueprint(kisanvani)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 

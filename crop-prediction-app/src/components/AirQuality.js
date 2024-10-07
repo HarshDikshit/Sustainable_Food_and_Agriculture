@@ -29,13 +29,13 @@ const AirQualityApp = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="air-quality-app">
-      <h1>Air Quality Information</h1>
+    <div className="air-quality-app px-10 flex flex-col w-full">
+      <h1 className='m-auto text-3xl font-bold'>Air Quality Information</h1>
       
       {airQualityData && (
         <>
-          <div className="current-air-quality">
-            <h2>Current Air Quality</h2>
+          <div className="current-air-quality text-lg font-semibold">
+            <h1 className='text-2xl font-bold'>Current Air Quality:</h1>
             <p>Time: {new Date(airQualityData.current.time).toLocaleString()}</p>
             <p>PM10: {airQualityData.current.pm10} µg/m³</p>
             <p>PM2.5: {airQualityData.current.pm2_5} µg/m³</p>
@@ -46,7 +46,7 @@ const AirQualityApp = () => {
           </div>
 
           <div className="hourly-forecast">
-            <h2>Hourly Forecast</h2>
+            <h2 className='text-2xl font-bold my-5'>Hourly Forecast</h2>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={airQualityData.hourly.time.map((time, index) => ({
                 time: new Date(time).toLocaleTimeString(),

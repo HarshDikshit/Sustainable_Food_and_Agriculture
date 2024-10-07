@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaList, FaPen, FaXmark } from 'react-icons/fa6'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Dialog from '../Dialog/Dialog';
 
 function VendorDashboard() {
     const [name, setName] = useState('');
@@ -16,6 +17,8 @@ function VendorDashboard() {
         const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const navigate= useNavigate()
+    const [isDialogOpen1, setIsDialogOpen1] = useState(false);
+
         
     const [isDialogOpen, setIsDialogOpen] = useState({
         status:false,
@@ -106,7 +109,7 @@ function VendorDashboard() {
                 <FaPen className='text-lg'/>
                 Create Catalogue
             </div>
-            <div onClick={()=> navigate('/vendor-inventory')} className='shadow-lg rounded-md p-4 text-xl font-bold flex gap-3 justify-center items-center w-1/2 border-green-500 border-2 cursor-pointer'>
+            <div onClick={()=> setIsDialogOpen1(true)} className='shadow-lg rounded-md p-4 text-xl font-bold flex gap-3 justify-center items-center w-1/2 border-green-500 border-2 cursor-pointer'>
                 <FaList className='text-lg'/>
                 Manage Requests
             </div>
@@ -195,6 +198,53 @@ function VendorDashboard() {
       </div>
       </div>)}
       </section>
+
+      <Dialog isOpen={isDialogOpen1} onClose={()=> setIsDialogOpen1(false)}>
+        <div className='w-full p-4 flex flex-col'>
+          <h1 className='m-auto text-3xl font-bold my-4'>Requests</h1>
+          <div className='w-full my-3 p-2 flex gap-3 items-center  border-2 border-green-400 shadow-lg rounded-md bg-white'>
+            <img className='w-[50px] h-[50px] object-cover rounded-md' src="https://res.cloudinary.com/dmhz3xyci/image/upload/v1728298528/wctx5gu2brwyxfe4a7gy.jpg" alt="icon" />
+            <div className='flex flex-col gap-1'>
+            <p className='text-lg font-semibold'>Coffee Beans</p>
+            <p className='text-sm font-semibold text-gray-500'>Buyer's Contact: 7874416114</p>
+
+            </div>
+            <p className='text-lg font-semibold'>Price: ₹ 34 per kg</p>
+
+          </div>
+          <div className='w-full my-3 p-2 flex gap-3 items-center  border-2 border-green-400 shadow-lg rounded-md bg-white'>
+            <img className='w-[50px] h-[50px] object-cover rounded-md' src="https://res.cloudinary.com/dmhz3xyci/image/upload/v1728298528/wctx5gu2brwyxfe4a7gy.jpg" alt="icon" />
+            <div className='flex flex-col gap-1'>
+            <p className='text-lg font-semibold'>Coffee Beans</p>
+            <p className='text-sm font-semibold text-gray-500'>Buyer's Contact: 7874416114</p>
+
+            </div>
+            <p className='text-lg font-semibold'>Price: ₹ 34 per kg</p>
+
+          </div>
+          <div className='w-full my-3 p-2 flex gap-3 items-center  border-2 border-green-400 shadow-lg rounded-md bg-white'>
+            <img className='w-[50px] h-[50px] object-cover rounded-md' src="https://res.cloudinary.com/dmhz3xyci/image/upload/v1728298528/wctx5gu2brwyxfe4a7gy.jpg" alt="icon" />
+            <div className='flex flex-col gap-1'>
+            <p className='text-lg font-semibold'>Coffee Beans</p>
+            <p className='text-sm font-semibold text-gray-500'>Buyer's Contact: 7874416114</p>
+
+            </div>
+            <p className='text-lg font-semibold'>Price: ₹ 34 per kg</p>
+
+          </div>
+          <div className='w-full my-3 p-2 flex gap-3 items-center  border-2 border-green-400 shadow-lg rounded-md bg-white'>
+            <img className='w-[50px] h-[50px] object-cover rounded-md' src="https://res.cloudinary.com/dmhz3xyci/image/upload/v1728298528/wctx5gu2brwyxfe4a7gy.jpg" alt="icon" />
+            <div className='flex flex-col gap-1'>
+            <p className='text-lg font-semibold'>Coffee Beans</p>
+            <p className='text-sm font-semibold text-gray-500'>Buyer's Contact: 7874416114</p>
+
+            </div>
+            <p className='text-lg font-semibold'>Price: ₹ 34 per kg</p>
+
+          </div>
+          
+        </div>
+      </Dialog>
     </div>
   )}
 

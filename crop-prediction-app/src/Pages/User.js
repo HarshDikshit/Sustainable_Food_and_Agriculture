@@ -11,6 +11,7 @@ import {ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WeatherApp from './WeatherApp.js';
 import { div } from '@tensorflow/tfjs';
+import PopupChatbot from '../components/PopupChatbot.js';
 
 
 function User() {
@@ -297,6 +298,8 @@ const handleClick = ()=> {
             draggable                      
             pauseOnHover                   
             theme="colored" /> 
+
+          <PopupChatbot/>
     </div>
 
   )
