@@ -12,17 +12,17 @@ kisanvani = Blueprint('kisanvani', __name__)
 
 
 
-# Load Hugging Face model and tokenizer
+# Loading the Hugging Face model plus tokenizer
 hf_model_path = "./fine_tuned_dialogpt_kisanvaani"
 hf_tokenizer = AutoTokenizer.from_pretrained(hf_model_path)
 hf_model = AutoModelForCausalLM.from_pretrained(hf_model_path)
 
-# Load personalized model and tokenizer
+# Load both
 personalized_model_path = "./fine_tuned_model_personalized"
 personalized_tokenizer = AutoTokenizer.from_pretrained(personalized_model_path)
 personalized_model = AutoModelForCausalLM.from_pretrained(personalized_model_path)
 
-# Load personalized dataset
+# Load our personalized dataset which we have entered manually
 personalized_dataset = load_from_disk("processed_personalized_dataset")
 
 def generate_response(model, tokenizer, user_input):
@@ -54,7 +54,7 @@ def find_best_match(user_input, dataset):
             best_score = score
             best_match = item
 
-    # Return the best match if the score is above a threshold (e.g., 0.5)
+    # Return the best match if the score is above a threshold
     if best_score > 0.5:
         return best_match['output']
     return None
@@ -64,22 +64,22 @@ def chatbot():
     data = request.json
     user_input = data['message']
     
-    # Try to find an exact match from the personalized dataset
+    # Trying to find an exact match from personalized dataset we have trained
     personalized_response = find_best_match(user_input, personalized_dataset)
     
     if personalized_response:
         final_response = personalized_response
     else:
-        # If no exact match, generate response from personalized model
+        # if no exact match, generate response from personalized model
         personalized_response = generate_response(personalized_model, personalized_tokenizer, user_input)
         
-        # If personalized model response is not relevant, fall back to Hugging Face model
+        # if personalized model response is not relevant, go to Hugging Face model
         if len(personalized_response) < 30:
             final_response = generate_response(hf_model, hf_tokenizer, user_input)
         else:
             final_response = personalized_response
     
-    # Post-process the response to ensure it's within the desired word range
+    # process again the response to ensure within the desired word limit we have entered
     words = final_response.split()
     if len(words) > 300:
         final_response = ' '.join(words[:300]) + '...'
