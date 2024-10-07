@@ -27,6 +27,8 @@ from dotenv import load_dotenv
 from  config import Config
 patch_sklearn()
 
+#-------------------------------------------------------------------------------------------------------------------
+
 # define model paths
 
 #model_1
@@ -55,6 +57,8 @@ MODEL_4_PATH_LE_SEASON = os.path.join('model', 'model_4','le_season2.joblib' )
 MODEL_4_PATH_LE_CROP = os.path.join('model', 'model_4','le_crop2.joblib' )
 MODEL_4_CROP_YIELD_CSV = os.path.join('model', 'model_4', 'crop_yield.csv')
 
+#------------------------------------------------------------------------------------------------------------------
+
 # Load the model and encoders
 
 #model_1
@@ -67,120 +71,137 @@ soil_type_encoder = pickle.load(open(MODEL_2_SOIL_TYPE_ENCODER, "rb"))
 crop_type_encoder = pickle.load(open(MODEL_2_CROP_TYPE_ENCODER, "rb"))
 fertname_encoder = pickle.load(open(MODEL_2_FERTNAME_ENCODER, "rb"))
 
+#model_3
+#INSIDE THE MODEL 3 BACKEND FUNCTION
+
 #model_4
 model4 = joblib.load('crop_prediction_model2.joblib')
 le_season2 = joblib.load(MODEL_4_PATH_LE_SEASON)
 le_state2 = joblib.load(MODEL_4_PATH_STATE)
 le_crop2 = joblib.load(MODEL_4_PATH_LE_CROP)
 
+#---------------------------------------------------------------------------------------------------------------------------
 
 # Load datasets
 
-#model_4
-pd.read_csv(MODEL_4_CROP_YIELD_CSV)
+#model_1
+       #no need
+
+#model_2
+       #no need
 
 #model_3
 df_demand = pd.read_csv(MODEL_3_PATH_CROP_DEMAND)
 df_price = pd.read_csv(MODEL_3_PATH_CROP_PRICE)
 
+#model_4
+pd.read_csv(MODEL_4_CROP_YIELD_CSV)
 
-#model_3 function
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+#--------------------------------------------------------------------------------------------------------------------------
 
-class CropDemandModel(torch.nn.Module):
-    def __init__(self, input_size):
-        super(CropDemandModel, self).__init__()
-        self.fc1 = torch.nn.Linear(input_size, 64)
-        self.fc2 = torch.nn.Linear(64, 32)
-        self.fc3 = torch.nn.Linear(32, 1)
-        self.relu = torch.nn.ReLU()
+# FUNCTION of BACKEND
 
-    def forward(self, x):
-        x = self.relu(self.fc1(x))
-        x = self.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
-
-def load_model_and_data():
-    try:
-        model = CropDemandModel(input_size=8)
-        model.load_state_dict(torch.load(MODEL_3_PATH_CROP_DEMAND_MODEL))
-        model.eval()
-        
-        X_scaled = np.load(MODEL_3_PATH_X_SCALED)
-        crop_encodings = np.load(MODEL_3_PATH_CROP_ENCODINGS, allow_pickle=True).item()
-        latest_year = np.load(MODEL_3_PATH_LATEST_YEAR)
-        scaler = torch.load(MODEL_3_PATH_SCALER)
-        
-        # Load original data for fallback predictions
-        df_yearly = pd.read_csv(MODEL_3_PATH_CROP_DEMAND)
-        
-        logger.info(f"Model and data loaded successfully. Crop encodings: {crop_encodings}")
-        return model, X_scaled, crop_encodings, latest_year, scaler, df_yearly
-    except Exception as e:
-        logger.error(f"Error in loading model and data: {e}")
-        raise
-
-def predict_next_year(model, scaler, X, crop_encodings, latest_year, df_yearly):
-    try:
-        next_year = latest_year + 1
-        predictions = {}
-        
-        for crop, encoding in crop_encodings.items():
-            crop_data = df_yearly[df_yearly['Crop'] == crop].sort_values('Year')
-            if len(crop_data) == 0:
-                logger.warning(f"No data found for crop: {crop}")
-                continue
+       #model_3 only
+            logging.basicConfig(level=logging.INFO)
+            logger = logging.getLogger(__name__)
             
-            # Use the last 3 years of data to calculate the average growth rate
-            last_3_years = crop_data.tail(3)
-            growth_rates = (last_3_years['Demand'].pct_change() + 1).dropna()
-            avg_growth_rate = growth_rates.mean()
+            class CropDemandModel(torch.nn.Module):
+                def __init__(self, input_size):
+                    super(CropDemandModel, self).__init__()
+                    self.fc1 = torch.nn.Linear(input_size, 64)
+                    self.fc2 = torch.nn.Linear(64, 32)
+                    self.fc3 = torch.nn.Linear(32, 1)
+                    self.relu = torch.nn.ReLU()
             
-            # Get the last known demand
-            last_known_demand = crop_data['Demand'].iloc[-1]
+                def forward(self, x):
+                    x = self.relu(self.fc1(x))
+                    x = self.relu(self.fc2(x))
+                    x = self.fc3(x)
+                    return x
             
-            # Predict using the model
-            crop_scaled_data = X[X[:, 1] == encoding]
-            if len(crop_scaled_data) > 0:
-                latest_crop_data = crop_scaled_data[-1]
-                prev_demand = latest_crop_data[-1]
-                next_year_data = np.array([[next_year, encoding] + list(latest_crop_data[2:-1]) + [prev_demand]])
-                next_year_scaled = scaler.transform(next_year_data)
-                next_year_tensor = torch.FloatTensor(next_year_scaled)
-                
-                with torch.no_grad():
-                    model_prediction = model(next_year_tensor)
-                model_prediction = float(model_prediction.numpy()[0][0])
-            else:
-                model_prediction = None
+            def load_model_and_data():
+                try:
+                    model = CropDemandModel(input_size=8)
+                    model.load_state_dict(torch.load(MODEL_3_PATH_CROP_DEMAND_MODEL))
+                    model.eval()
+                    
+                    X_scaled = np.load(MODEL_3_PATH_X_SCALED)
+                    crop_encodings = np.load(MODEL_3_PATH_CROP_ENCODINGS, allow_pickle=True).item()
+                    latest_year = np.load(MODEL_3_PATH_LATEST_YEAR)
+                    scaler = torch.load(MODEL_3_PATH_SCALER)
+                    
+                    # Load original data for fallback predictions
+                    df_yearly = pd.read_csv(MODEL_3_PATH_CROP_DEMAND)
+                    
+                    logger.info(f"Model and data loaded successfully. Crop encodings: {crop_encodings}")
+                    return model, X_scaled, crop_encodings, latest_year, scaler, df_yearly
+                except Exception as e:
+                    logger.error(f"Error in loading model and data: {e}")
+                    raise
             
-            # Fallback prediction using average growth rate
-            fallback_prediction = last_known_demand * avg_growth_rate
+            def predict_next_year(model, scaler, X, crop_encodings, latest_year, df_yearly):
+                try:
+                    next_year = latest_year + 1
+                    predictions = {}
+                    
+                    for crop, encoding in crop_encodings.items():
+                        crop_data = df_yearly[df_yearly['Crop'] == crop].sort_values('Year')
+                        if len(crop_data) == 0:
+                            logger.warning(f"No data found for crop: {crop}")
+                            continue
+                        
+                        # Use the last 3 years of data to calculate the average growth rate
+                        last_3_years = crop_data.tail(3)
+                        growth_rates = (last_3_years['Demand'].pct_change() + 1).dropna()
+                        avg_growth_rate = growth_rates.mean()
+                        
+                        # Get the last known demand
+                        last_known_demand = crop_data['Demand'].iloc[-1]
+                        
+                        # Predict using the model
+                        crop_scaled_data = X[X[:, 1] == encoding]
+                        if len(crop_scaled_data) > 0:
+                            latest_crop_data = crop_scaled_data[-1]
+                            prev_demand = latest_crop_data[-1]
+                            next_year_data = np.array([[next_year, encoding] + list(latest_crop_data[2:-1]) + [prev_demand]])
+                            next_year_scaled = scaler.transform(next_year_data)
+                            next_year_tensor = torch.FloatTensor(next_year_scaled)
+                            
+                            with torch.no_grad():
+                                model_prediction = model(next_year_tensor)
+                            model_prediction = float(model_prediction.numpy()[0][0])
+                        else:
+                            model_prediction = None
+                        
+                        # Fallback prediction using average growth rate
+                        fallback_prediction = last_known_demand * avg_growth_rate
+                        
+                        # Use model prediction if it's reasonable, otherwise use fallback
+                        if model_prediction and 0.9 * last_known_demand <= model_prediction <= 1.1 * last_known_demand:
+                            predictions[crop] = model_prediction
+                        else:
+                            predictions[crop] = fallback_prediction
+                        
+                        logger.info(f"{crop}: Model prediction: {model_prediction}, Fallback prediction: {fallback_prediction}, Final prediction: {predictions[crop]}")
+                    
+                    logger.info("Predictions generated successfully")
+                    return predictions, next_year
+                except Exception as e:
+                    logger.error(f"Error in prediction: {e}")
+                    raise
             
-            # Use model prediction if it's reasonable, otherwise use fallback
-            if model_prediction and 0.9 * last_known_demand <= model_prediction <= 1.1 * last_known_demand:
-                predictions[crop] = model_prediction
-            else:
-                predictions[crop] = fallback_prediction
-            
-            logger.info(f"{crop}: Model prediction: {model_prediction}, Fallback prediction: {fallback_prediction}, Final prediction: {predictions[crop]}")
-        
-        logger.info("Predictions generated successfully")
-        return predictions, next_year
-    except Exception as e:
-        logger.error(f"Error in prediction: {e}")
-        raise
+            model, X_scaled, crop_encodings, latest_year, scaler, df_yearly = load_model_and_data()
 
-model, X_scaled, crop_encodings, latest_year, scaler, df_yearly = load_model_and_data()
+#---------------------------------------------------------------------------------------------------------------------------------------
 
-
+#Flask app STARTS here
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = Config.MONGO_URI
 mongo = PyMongo(app)
 from routes import product_routes
+
+# Calling routes(blueprint)
 
 #Registering the products route blueprint 
 app.register_blueprint(product_routes.products)
@@ -205,6 +226,8 @@ app.register_blueprint(kisanvani)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 
+#---------------------------------------------------------------------------------------------------------------------------
+
 
 def predict_crops(input_data, top_n=5):
     input_data_scaled = scaler1.transform(input_data)
@@ -214,8 +237,10 @@ def predict_crops(input_data, top_n=5):
     crop_probabilities.sort(key=lambda x: x[1], reverse=True)
     return crop_probabilities[:top_n]
 
+#-------------------------- PREDICTIONS-----------------------------------------------------------------------------------------------
 
-#-------model_1-----------
+
+#-------model_1------------------------------Specific Crop Recommendation-------
 
 @app.route('/predict', methods=['POST'])
 def predict1():
@@ -257,7 +282,7 @@ def predict1():
         }), 400
 
 
-#------model_2---------
+#------model_2--------------------------------Fertilizer Recommendation-----------
 
 @app.route('/api/predict', methods=['POST'])
 def predict2():
@@ -290,7 +315,25 @@ def predict2():
 
 
 
-#-----model_4--------
+#---------model 3---------------------Food Demand this Year--------------------
+
+@app.route('/predictions', methods=['GET'])
+def predict3():
+    try:
+        predictions, next_year = predict_next_year(model, scaler, X_scaled, crop_encodings, latest_year, df_yearly)
+        response = {
+            'year': int(next_year),
+            'predictions': predictions
+        }
+        logger.info(f"Prediction request processed successfully. Response: {response}")
+        return jsonify(response)
+    except Exception as e:
+        logger.error(f"Error during prediction: {e}")
+        return jsonify({'error': 'An error occurred during prediction'}), 500
+
+
+
+#---------model_4-------------Simple Crop Recommendation----------------------
 
 @app.route('/simple-predict', methods=['POST'])
 def predict():
@@ -307,25 +350,8 @@ def predict():
     prediction = predict_crop(season, state)
     return jsonify({'prediction': prediction})
 
-#-------model 3-------------------
 
-
-
-
-@app.route('/predictions', methods=['GET'])
-def predict3():
-    try:
-        predictions, next_year = predict_next_year(model, scaler, X_scaled, crop_encodings, latest_year, df_yearly)
-        response = {
-            'year': int(next_year),
-            'predictions': predictions
-        }
-        logger.info(f"Prediction request processed successfully. Response: {response}")
-        return jsonify(response)
-    except Exception as e:
-        logger.error(f"Error during prediction: {e}")
-        return jsonify({'error': 'An error occurred during prediction'}), 500
-
+#------------------------------------------------------------------------------------------------------------------------------------
 
 
 @app.route('/')
