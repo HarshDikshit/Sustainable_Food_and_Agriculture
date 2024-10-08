@@ -8,7 +8,6 @@ import torch.nn as nn
 import torch.optim as optim
 import intel_extension_for_pytorch as ipex
 import logging
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

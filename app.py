@@ -31,7 +31,7 @@ from routes import product_routes
 #Registering the products route blueprint 
 app.register_blueprint(product_routes.products)
 
-#Registering the requests route blueprint 
+#Registering the item_blueprint route blueprint 
 app.register_blueprint(item_blueprint)
 
 #Register the authentication blueprint
