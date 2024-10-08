@@ -27,6 +27,14 @@ MODEL_1_PATH_SCALER_INTEL = os.path.join('model', 'model_1','scaler_intel.joblib
 model1 = joblib.load(MODEL_1_PATH_CROP_PREDICTION_MODEL_INTEL)
 scaler1 = joblib.load(MODEL_1_PATH_SCALER_INTEL)
 
+@backened_1.route('/')
+def index():
+    return jsonify({
+        "status": "success",
+        "message": "Server is running",
+        "info": "Crop Prediction System using Intel oneDAL"
+    })
+
 #-------model_1------------------------------Specific Crop Recommendation-------
 
 @backened_1.route('/predict', methods=['POST'])

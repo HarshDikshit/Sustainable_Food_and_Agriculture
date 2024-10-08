@@ -64,14 +64,6 @@ app.register_blueprint(backened_4)
 
 print(f"scikit-learn version: {sklearn.__version__}")
 
-@app.route('/')
-def index():
-    return jsonify({
-        "status": "success",
-        "message": "Server is running",
-        "info": "Crop Prediction System using Intel oneDAL"
-    })
-
 if __name__ == '__main__':
     print("Starting Flask server...")
     app.run(debug=True, host='0.0.0.0', port=5000)
